@@ -49,19 +49,21 @@ else
     echo "Using SQLite database..."
     export DB_CONNECTION=sqlite
     export DB_DATABASE=/var/www/html/database/database.sqlite
+    export SESSION_DRIVER=cookie
 
-    # Synchronize .env with sqlite and absolute database path
+    # Synchronize .env with sqlite and cookie session
     sed -i "s|^DB_CONNECTION=.*|DB_CONNECTION=sqlite|" .env 2>/dev/null || echo "DB_CONNECTION=sqlite" >> .env
     sed -i "s|^DB_DATABASE=.*|DB_DATABASE=/var/www/html/database/database.sqlite|" .env 2>/dev/null || echo "DB_DATABASE=/var/www/html/database/database.sqlite" >> .env
+    sed -i "s|^SESSION_DRIVER=.*|SESSION_DRIVER=cookie|" .env 2>/dev/null || echo "SESSION_DRIVER=cookie" >> .env
 
     # Clean any legacy stray sqlite files in project root
-    rm -f /var/www/html/wecon_asia /var/www/html/laravel 2>/dev/null || true
+    rm -f /var/www/html/wecon_asia /var/www/html/laravel /var/www/html/*.sqlite* 2>/dev/null || true
 
     mkdir -p /var/www/html/database
     touch /var/www/html/database/database.sqlite
     chown -R www-data:www-data /var/www/html/database
-    chmod -R 775 /var/www/html/database
-    chmod 664 /var/www/html/database/database.sqlite
+    chmod -R 777 /var/www/html/database
+    chmod 666 /var/www/html/database/database.sqlite
 fi
 
 # 6. Run database migrations and seed default content
@@ -77,8 +79,8 @@ php artisan view:cache || true
 # 8. Ensure permissions are strictly granted to www-data for web execution
 echo "Fixing file and directory permissions for www-data..."
 chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database /var/www/html/.env || true
-chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database || true
-chmod 664 /var/www/html/database/*.sqlite* 2>/dev/null || true
+chmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database || true
+chmod 666 /var/www/html/database/*.sqlite* 2>/dev/null || true
 
 # 9. Verify Apache syntax before launch
 echo "Verifying Apache configuration syntax..."
