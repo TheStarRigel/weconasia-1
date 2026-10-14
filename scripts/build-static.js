@@ -93,6 +93,58 @@ html = html.replace(authRegex, (match) => {
 html = html.replace(/href="\{\{\s*url\('\/insights'\)\s*\}\}"/g, 'href="#insights"');
 html = html.replace(/href="\{\{\s*url\('\/events'\)\s*\}\}"/g, 'href="https://marketech-apac.com/featured-events/" target="_blank" rel="noopener noreferrer"');
 html = html.replace(/href="\{\{\s*url\('\/'\)\s*\}\}"/g, 'href="index.html"');
+html = html.replace(/\{\{\s*route\(['"]([^'"]+)['"]\)\s*\}\}/g, '/$1');
+
+// 7. Strip CSRF tokens and meta tags
+html = html.replace(/<meta name="csrf-token" content="\{\{[^}]+\}\}">/gi, '<meta name="csrf-token" content="">');
+html = html.replace(/@csrf/gi, '');
+
+// 8. Remove Blade session flash messages
+html = html.replace(/@if\s*\(\s*session\([^)]+\)\s*\)[\s\S]*?@endif/gi, '');
+
+// 9. Clean up complex image assets with PHP functions: {{ asset($sections[...] ?? '...') }}?v={{ ... }}
+html = html.replace(/src="\{\{\s*asset\([^?]+?\?\?\s*['"]([^'"]+)['"]\)\s*\}\}\?v=\{\{[^}]+\}\}"/g, 'src="$1"');
+html = html.replace(/src="\{\{\s*asset\([^)]+\?\?\s*['"]([^'"]+)['"]\)\s*\}\}"/g, 'src="$1"');
+
+// 10. Replace {!! $sections[...] ?? 'fallback' !!} or {!! $sections[...] ?? "fallback" !!}
+html = html.replace(/\{!!\s*\$sections\[['"][^'"]+['"]\]\[['"][^'"]+['"]\]\s*\?\?\s*(['"])([\s\S]*?)\1\s*!!\}/g, '$2');
+
+// 11. Replace {{ $sections[...] ?? 'fallback' }} or {{ $sections[...] ?? "fallback" }}
+html = html.replace(/\{\{\s*\$sections\[['"][^'"]+['"]\]\[['"][^'"]+['"]\]\s*\?\?\s*(['"])([\s\S]*?)\1\s*\}\}/g, '$2');
+
+// 12. Replace the careers PHP block & foreach with clean static cards
+const careersStaticBlock = `
+                <div style="padding: 1.15rem; border: 1px solid var(--border); border-radius: 12px; background: var(--section-alt); display: flex; flex-direction: column; justify-content: flex-start; gap: 0.35rem; transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem;">
+                        <div style="font-weight: 700; color: var(--navy); font-size: 1rem; line-height: 1.35;">Senior Tech & Business Journalist</div>
+                        <span style="font-size: 0.7rem; font-weight: 700; background: rgba(18, 97, 181, 0.1); color: var(--blue); padding: 0.2rem 0.55rem; border-radius: 9999px; white-space: nowrap; flex-shrink: 0;">Full-time</span>
+                    </div>
+                    <div style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4;">Singapore / Remote • Editorial Team</div>
+                    <div style="font-size: 0.84rem; color: var(--text-body); line-height: 1.5; margin-top: 0.35rem; padding-top: 0.5rem; border-top: 1px dashed rgba(0,0,0,0.08);">
+                        Produce in-depth coverage, executive interviews, and investigative features across Asia-Pacific enterprise technology and digital markets.
+                    </div>
+                </div>
+                <div style="padding: 1.15rem; border: 1px solid var(--border); border-radius: 12px; background: var(--section-alt); display: flex; flex-direction: column; justify-content: flex-start; gap: 0.35rem; transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem;">
+                        <div style="font-weight: 700; color: var(--navy); font-size: 1rem; line-height: 1.35;">Conference Program Producer</div>
+                        <span style="font-size: 0.7rem; font-weight: 700; background: rgba(18, 97, 181, 0.1); color: var(--blue); padding: 0.2rem 0.55rem; border-radius: 9999px; white-space: nowrap; flex-shrink: 0;">Full-time</span>
+                    </div>
+                    <div style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4;">Manila / Hybrid • Events Division</div>
+                    <div style="font-size: 0.84rem; color: var(--text-body); line-height: 1.5; margin-top: 0.35rem; padding-top: 0.5rem; border-top: 1px dashed rgba(0,0,0,0.08);">
+                        Curate thought leadership agendas, recruit high-profile keynote speakers, and collaborate with marketing teams to deliver world-class business summits.
+                    </div>
+                </div>
+                <div style="padding: 1.15rem; border: 1px solid var(--border); border-radius: 12px; background: var(--section-alt); display: flex; flex-direction: column; justify-content: flex-start; gap: 0.35rem; transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem;">
+                        <div style="font-weight: 700; color: var(--navy); font-size: 1rem; line-height: 1.35;">Enterprise Sponsorship Director</div>
+                        <span style="font-size: 0.7rem; font-weight: 700; background: rgba(18, 97, 181, 0.1); color: var(--blue); padding: 0.2rem 0.55rem; border-radius: 9999px; white-space: nowrap; flex-shrink: 0;">Full-time</span>
+                    </div>
+                    <div style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4;">Regional • Commercial Partnerships</div>
+                    <div style="font-size: 0.84rem; color: var(--text-body); line-height: 1.5; margin-top: 0.35rem; padding-top: 0.5rem; border-top: 1px dashed rgba(0,0,0,0.08);">
+                        Develop and secure strategic multi-market sponsorship and media alliances with top technology brands and enterprise vendors across APAC.
+                    </div>
+                </div>`;
+html = html.replace(/@php[\s\S]*?\$careersList[\s\S]*?@endphp\s*@foreach\(\$careersList\s+as\s+\$job\)[\s\S]*?@endforeach/, careersStaticBlock.trim());
 
 // Write to dist/index.html
 const indexHtmlPath = path.join(distDir, 'index.html');
