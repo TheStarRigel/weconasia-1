@@ -3,7 +3,12 @@ set -e
 
 echo "=== WECON ASIA Production Server Starting ==="
 
-# 1. Configure dynamic Railway port
+# 1. Ensure exactly one MPM (mpm_prefork) is loaded (fixes AH00534 duplicate MPM error)
+echo "Configuring Apache MPM modules..."
+rm -f /etc/apache2/mods-enabled/mpm_*.load /etc/apache2/mods-enabled/mpm_*.conf
+a2enmod mpm_prefork >/dev/null 2>&1 || true
+
+# 2. Configure dynamic Railway port
 PORT="${PORT:-80}"
 echo "Configuring Apache to listen on port: $PORT"
 
@@ -13,19 +18,19 @@ echo "Listen ${PORT}" > /etc/apache2/ports.conf
 # Update VirtualHost to listen on the dynamic port
 sed -i "s/<VirtualHost [^>]*>/<VirtualHost \*:${PORT}>/g" /etc/apache2/sites-available/000-default.conf
 
-# 2. Ensure .env exists (failsafe)
+# 3. Ensure .env exists (failsafe)
 if [ ! -f .env ]; then
     cp .env.example .env || touch .env
 fi
 
-# 3. Synchronize APP_KEY if provided as environment variable
+# 4. Synchronize APP_KEY if provided as environment variable
 if [ -n "$APP_KEY" ]; then
     sed -i "s|^APP_KEY=.*|APP_KEY=${APP_KEY}|" .env 2>/dev/null || echo "APP_KEY=${APP_KEY}" >> .env
 elif ! grep -q "^APP_KEY=base64:" .env 2>/dev/null; then
     php artisan key:generate --force || true
 fi
 
-# 4. Determine database connection
+# 5. Determine database connection
 if [ -n "$MYSQLHOST" ] || [ -n "$MYSQL_URL" ] || [ "$DB_CONNECTION" = "mysql" ]; then
     echo "Using MySQL database..."
     export DB_CONNECTION=mysql
@@ -48,21 +53,21 @@ else
     chmod 664 database/database.sqlite
 fi
 
-# 5. Run database migrations and seed default content
+# 6. Run database migrations and seed default content
 echo "Running database migrations..."
 php artisan migrate --force --seed || echo "Migration notice: continuing startup..."
 
-# 6. Optimize Laravel caches for production
+# 7. Optimize Laravel caches for production
 echo "Caching Laravel configuration and routes..."
 php artisan config:cache || true
 php artisan route:cache || true
 php artisan view:cache || true
 
-# 7. Ensure permissions are set
+# 8. Ensure permissions are set
 chown -R www-data:www-data storage bootstrap/cache database .env || true
 chmod -R 775 storage bootstrap/cache database || true
 
-# 8. Verify Apache syntax before launch
+# 9. Verify Apache syntax before launch
 echo "Verifying Apache configuration syntax..."
 apache2ctl configtest || true
 
