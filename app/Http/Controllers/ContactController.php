@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CmsContent;
-use App\Models\ContactInquiry;
-use App\Models\NewsletterSubscriber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -28,34 +25,31 @@ class ContactController extends Controller
             'consent_agreed' => 'required|accepted',
         ]);
 
-        $inquiry = ContactInquiry::create([
-            'first_name' => $validated['first_name'],
-            'last_name' => $validated['last_name'],
-            'business_email' => $validated['business_email'],
-            'contact_number' => $validated['contact_number'] ?? null,
-            'job_title' => $validated['job_title'] ?? null,
-            'company_name' => $validated['company_name'] ?? null,
-            'purpose' => $validated['purpose'] ?? 'General Inquiry',
-            'details' => $validated['details'] ?? null,
-            'consent_agreed' => true,
-            'status' => 'new',
-        ]);
+        $firstName = $validated['first_name'];
+        $lastName = $validated['last_name'];
+        $email = $validated['business_email'];
+        $company = $validated['company_name'] ?? 'N/A';
+        $purpose = $validated['purpose'] ?? 'General Inquiry';
+        $details = $validated['details'] ?? 'None provided';
+        $phone = $validated['contact_number'] ?? 'N/A';
+        $jobTitle = $validated['job_title'] ?? 'N/A';
 
-        // Automated Email Notification to Staff
-        $sec9 = CmsContent::getSection('section_9_contact');
-        $staffEmail = $sec9['staff_notification_email'] ?? env('MAIL_FROM_ADDRESS', 'management@marketech-apac.com');
+        Log::info("Contact Inquiry Received: {$firstName} {$lastName} ({$company}) <{$email}> - {$purpose}");
+
+        // Automated Email Notification to Staff (if mail driver is configured)
+        $staffEmail = env('MAIL_NOTIFICATION_ADDRESS', env('MAIL_FROM_ADDRESS', 'management@marketech-apac.com'));
 
         $this->notifyStaff(
             $staffEmail,
-            "New Contact Inquiry: {$inquiry->first_name} {$inquiry->last_name} ({$inquiry->company_name})",
-            "A new inquiry has been submitted through the WECON/MARKETECH APAC website:\n\n" .
-            "Name: {$inquiry->first_name} {$inquiry->last_name}\n" .
-            "Email: {$inquiry->business_email}\n" .
-            "Phone: {$inquiry->contact_number}\n" .
-            "Company: {$inquiry->company_name}\n" .
-            "Job Title: {$inquiry->job_title}\n" .
-            "Purpose: {$inquiry->purpose}\n" .
-            "Details: {$inquiry->details}\n\n" .
+            "New Contact Inquiry: {$firstName} {$lastName} ({$company})",
+            "A new inquiry has been submitted through the WECON website:\n\n" .
+            "Name: {$firstName} {$lastName}\n" .
+            "Email: {$email}\n" .
+            "Phone: {$phone}\n" .
+            "Company: {$company}\n" .
+            "Job Title: {$jobTitle}\n" .
+            "Purpose: {$purpose}\n" .
+            "Details: {$details}\n\n" .
             "Submitted at: " . now()->toDayDateTimeString()
         );
 
@@ -76,26 +70,21 @@ class ContactController extends Controller
             'interests' => 'nullable|array',
         ]);
 
-        $subscriber = NewsletterSubscriber::updateOrCreate(
-            ['email' => $validated['email']],
-            [
-                'full_name' => $validated['full_name'] ?? null,
-                'interests' => $validated['interests'] ?? ['all'],
-                'status' => 'active',
-            ]
-        );
-
-        // Automated Email to Staff
-        $sec7 = CmsContent::getSection('section_7_newsletter');
-        $staffEmail = $sec7['recipient_email'] ?? env('MAIL_FROM_ADDRESS', 'management@marketech-apac.com');
+        $email = $validated['email'];
+        $fullName = $validated['full_name'] ?? 'N/A';
         $interestsList = !empty($validated['interests']) ? implode(', ', $validated['interests']) : 'General Updates';
+
+        Log::info("Newsletter Subscription: {$email} ({$fullName}) - Interests: {$interestsList}");
+
+        // Automated Email to Staff (if mail driver is configured)
+        $staffEmail = env('MAIL_NOTIFICATION_ADDRESS', env('MAIL_FROM_ADDRESS', 'management@marketech-apac.com'));
 
         $this->notifyStaff(
             $staffEmail,
-            "New Newsletter Subscriber: {$subscriber->email}",
+            "New Newsletter Subscriber: {$email}",
             "A new subscriber has joined the WECON Asia information network:\n\n" .
-            "Name: " . ($subscriber->full_name ?: 'N/A') . "\n" .
-            "Email: {$subscriber->email}\n" .
+            "Name: {$fullName}\n" .
+            "Email: {$email}\n" .
             "Interests: {$interestsList}\n\n" .
             "Subscribed at: " . now()->toDayDateTimeString()
         );
@@ -117,8 +106,7 @@ class ContactController extends Controller
                         ->subject($subject);
             });
         } catch (\Throwable $e) {
-            // Log for monitoring in case local SMTP is offline or in log mode
-            Log::info("Automated email notification queued/logged: [{$subject}] to {$toEmail}. Error note: " . $e->getMessage());
+            Log::info("Automated email notification note: " . $e->getMessage());
         }
     }
 }

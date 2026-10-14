@@ -4667,30 +4667,6 @@
         });
     }
 
-    // 12. Stealth Login Access (No Visible Buttons)
-    // Shortcut 1: Keyboard combination Ctrl + Alt + L
-    window.addEventListener('keydown', (e) => {
-        if ((e.ctrlKey || e.metaKey) && e.altKey && (e.key === 'l' || e.key === 'L')) {
-            e.preventDefault();
-            window.location.href = "{{ route('login') }}";
-        }
-    });
-
-    // Shortcut 2: Triple-click on footer copyright
-    const footerBottom = document.querySelector('.footer-bottom');
-    if (footerBottom) {
-        let clickCount = 0;
-        let clickTimer = null;
-        footerBottom.addEventListener('click', () => {
-            clickCount++;
-            if (clickCount === 3) {
-                window.location.href = "{{ route('login') }}";
-            }
-            clearTimeout(clickTimer);
-            clickTimer = setTimeout(() => { clickCount = 0; }, 800);
-        });
-    }
-
     // 12. Smooth Scroll for Anchor Links
     document.querySelectorAll('a[href^="#"]').forEach(a => {
         a.addEventListener('click', function(e) {
