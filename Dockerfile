@@ -1,6 +1,19 @@
+# ---------------------------------------------------
+# Stage 1: Build Frontend Assets with Node.js
+# ---------------------------------------------------
+FROM node:20-alpine AS frontend
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# ---------------------------------------------------
+# Stage 2: Production PHP + Apache Application
+# ---------------------------------------------------
 FROM php:8.3-apache
 
-# Install system dependencies & PHP extensions
+# Install required system libraries and PHP extensions
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -12,8 +25,6 @@ RUN apt-get update && apt-get install -y \
     unzip \
     sqlite3 \
     libsqlite3-dev \
-    nodejs \
-    npm \
     && docker-php-ext-install pdo_mysql pdo_sqlite mbstring exif pcntl bcmath gd zip opcache \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -26,26 +37,25 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-av
     && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf \
     && a2enmod rewrite
 
-# Set working directory
+# Setup working directory
 WORKDIR /var/www/html
 
-# Copy application files
+# Copy application source code
 COPY . .
 
-# Install PHP dependencies
+# Copy built frontend assets from Stage 1
+COPY --from=frontend /app/public/build ./public/build
+COPY --from=frontend /app/dist ./dist
+
+# Install production PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Install Node dependencies and build assets
-RUN npm ci || npm install \
-    && npm run build
-
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
-    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache \
+# Set directory permissions
+RUN mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs bootstrap/cache database \
+    && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database \
     && chmod +x docker/start.sh
 
-# Expose default HTTP port
 EXPOSE 80
 
-# Run entrypoint script
 CMD ["docker/start.sh"]
