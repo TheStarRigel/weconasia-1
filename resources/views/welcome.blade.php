@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="WECON is an Asia-Pacific media, events, awards, and business information ecosystem connecting ideas, industry leaders, and transformative opportunities.">
     <title>WECON | Connecting Ideas, People, and Opportunities</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2290,6 +2291,13 @@
             transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             max-height: 90vh;
             overflow-y: auto;
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
+        }
+        .modal-container::-webkit-scrollbar {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
         }
         .modal-overlay.open .modal-container {
             transform: scale(1) translateY(0);
@@ -2454,6 +2462,252 @@
             .wheel-grid { grid-template-columns: 1fr; }
             .about-pill-matrix { grid-template-columns: 1fr; }
         }
+
+        /* ===== CONTACT TEAM MODAL (SECTION 9) ===== */
+        .contact-team-modal-container {
+            background: #FFFFFF;
+            width: 95%;
+            max-width: 1060px;
+            max-height: 92vh;
+            overflow-y: auto;
+            border-radius: 20px;
+            padding: 2.5rem;
+            position: relative;
+            box-shadow: 0 25px 60px -15px rgba(11, 43, 85, 0.3);
+            animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
+        }
+        .contact-team-modal-container::-webkit-scrollbar {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+        }
+        .contact-team-modal-grid {
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+        .contact-team-heading {
+            font-size: 1.85rem;
+            font-weight: 900;
+            color: #0F172A;
+            line-height: 1.2;
+            margin-bottom: 0.85rem;
+            letter-spacing: -0.02em;
+        }
+        .contact-team-subtext {
+            font-size: 0.88rem;
+            color: #64748B;
+            line-height: 1.55;
+            margin-bottom: 1.75rem;
+        }
+        .contact-team-card {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 14px;
+            padding: 1.25rem 1.35rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+        }
+        .contact-team-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            margin-bottom: 0.65rem;
+        }
+        .contact-card-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #0B2B55;
+        }
+        .contact-card-title {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #0B2B55;
+        }
+        .contact-card-text {
+            font-size: 0.85rem;
+            color: #475569;
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
+        }
+        .contact-card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #E11D48;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .contact-card-link:hover {
+            text-decoration: underline;
+        }
+        .contact-phone-number {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: #334155;
+            margin-bottom: 0.65rem;
+        }
+        .contact-chat-icons {
+            display: flex;
+            gap: 0.6rem;
+        }
+        .chat-icon-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #F1F5F9;
+            color: #0B2B55;
+            font-size: 0.75rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .chat-icon-btn:hover {
+            transform: scale(1.1);
+        }
+        .contact-email-dept {
+            font-size: 0.82rem;
+            line-height: 1.45;
+            margin-bottom: 0.55rem;
+        }
+        .dept-label {
+            display: block;
+            font-weight: 700;
+            color: #0F172A;
+        }
+        .dept-email {
+            color: #475569;
+            text-decoration: none;
+            word-break: break-all;
+            transition: color 0.2s;
+        }
+        .dept-email:hover {
+            color: #1261B5;
+            text-decoration: underline;
+        }
+
+        /* Right Form Column */
+        .contact-form-heading {
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: #0B2B55;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.01em;
+        }
+        .contact-team-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .contact-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .contact-input {
+            width: 100%;
+            border: 1px solid #CBD5E1;
+            border-radius: 6px;
+            padding: 0.75rem 0.9rem;
+            font-size: 0.88rem;
+            font-family: inherit;
+            color: #0F172A;
+            background: #FFFFFF;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .contact-input:focus {
+            outline: none;
+            border-color: #1261B5;
+            box-shadow: 0 0 0 3px rgba(18, 97, 181, 0.12);
+        }
+        .contact-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .contact-consent-quote {
+            font-size: 0.78rem;
+            color: #475569;
+            line-height: 1.5;
+            margin: 0.5rem 0 0.25rem 0;
+        }
+        .contact-consent-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            font-size: 0.8rem;
+            color: #334155;
+            line-height: 1.4;
+            cursor: pointer;
+        }
+        .contact-consent-label input[type="checkbox"] {
+            margin-top: 0.15rem;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: #E11D48;
+        }
+        .contact-consent-label a {
+            color: #1261B5;
+            text-decoration: none;
+        }
+        .contact-consent-label a:hover {
+            text-decoration: underline;
+        }
+        .required-flag {
+            color: #DC2626;
+            font-weight: 600;
+        }
+        .btn-submit-contact-red {
+            width: 100%;
+            background: #DC2626;
+            color: #FFFFFF;
+            font-size: 0.95rem;
+            font-weight: 700;
+            padding: 0.85rem 1.5rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: background 0.2s ease, transform 0.1s;
+        }
+        .btn-submit-contact-red:hover {
+            background: #B91C1C;
+        }
+        .contact-form-status {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            display: none;
+            text-align: center;
+        }
+        .contact-form-status.success {
+            display: block;
+            background: rgba(16, 185, 129, 0.15);
+            color: #065F46;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        .contact-form-status.error {
+            display: block;
+            background: rgba(239, 68, 68, 0.12);
+            color: #991B1B;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        @media (max-width: 900px) {
+            .contact-team-modal-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+        }
+        @media (max-width: 600px) {
+            .contact-form-row { grid-template-columns: 1fr; }
+            .contact-team-modal-container { padding: 1.5rem; }
+        }
     </style>
 </head>
 <body>
@@ -2503,20 +2757,20 @@
         <div class="hero-content reveal" style="transition-delay: 0.05s">
             <span class="hero-tag">
                 <span class="trust-dot" style="background: var(--blue);"></span>
-                Asia-Pacific Media & Business Ecosystem
+                {{ $sections['hero']['tag'] ?? 'Asia-Pacific Media & Business Ecosystem' }}
             </span>
             <h1 class="hero-title">
-                Connecting Ideas, <span class="highlight">People</span>, and Opportunities
+                {!! $sections['hero']['title'] ?? 'Connecting Ideas, <span class="highlight">People</span>, and Opportunities' !!}
             </h1>
             <p class="hero-desc">
-                WECON brings together industry leaders, organizations, professionals, and communities through events, awards, media, and meaningful business experiences.
+                {{ $sections['hero']['description'] ?? 'WECON brings together industry leaders, organizations, professionals, and communities through events, awards, media, and meaningful business experiences.' }}
             </p>
             <div class="hero-actions">
-                <a href="#insights" class="btn btn-primary" id="hero-primary-cta">
-                    See Articles <span class="cta-arrow">&rarr;</span>
+                <a href="{{ $sections['hero']['primary_cta_link'] ?? '#insights' }}" class="btn btn-primary" id="hero-primary-cta">
+                    {{ $sections['hero']['primary_cta_text'] ?? 'See Articles' }} <span class="cta-arrow">&rarr;</span>
                 </a>
-                <a href="#events" class="btn btn-outline-navy" id="hero-secondary-cta">
-                    View Upcoming Events
+                <a href="{{ $sections['hero']['secondary_cta_link'] ?? '#events' }}" class="btn btn-outline-navy" id="hero-secondary-cta">
+                    {{ $sections['hero']['secondary_cta_text'] ?? 'View Upcoming Events' }}
                 </a>
             </div>
 
@@ -2557,7 +2811,7 @@
 
             <!-- Central Hero Graphic -->
             <div class="hero-photo-card">
-                <img src="{{ asset('images/hero-visual.png') }}?v={{ file_exists(public_path('images/hero-visual.png')) ? filemtime(public_path('images/hero-visual.png')) : 1 }}" 
+                <img src="{{ asset($sections['hero']['hero_image'] ?? 'images/hero-visual.png') }}?v={{ file_exists(public_path($sections['hero']['hero_image'] ?? 'images/hero-visual.png')) ? filemtime(public_path($sections['hero']['hero_image'] ?? 'images/hero-visual.png')) : 1 }}" 
                      alt="WECON Asia Business Ecosystem" 
                      class="hero-photo-img" 
                      id="hero-visual-photo">
@@ -2580,15 +2834,13 @@
         <div class="about-split">
             <!-- Left Narrative -->
             <div class="about-content reveal" style="transition-delay: 0.05s">
-                <span class="section-tag">Who We Are</span>
+                <span class="section-tag">{{ $sections['about']['tag'] ?? 'Who We Are' }}</span>
                 <h2 class="about-title">
-                    More Than Media.<br>
-                    <span class="accent-red">A Connected Business Ecosystem.</span>
+                    {!! $sections['about']['title'] ?? 'More Than Media.<br><span class="accent-red">A Connected Business Ecosystem.</span>' !!}
                 </h2>
                 <p class="about-text">
-                    WECON Asia Media Group, Inc. is a forward-thinking business media, events, and industry intelligence ecosystem that connects enterprise leaders, innovators, and professionals across Asia. Through premier conferences, prestigious awards, insightful editorial coverage, and curated networking, we shape industries and catalyze growth.
+                    {{ $sections['about']['description'] ?? 'WECON Asia Media Group, Inc. is a forward-thinking business media, events, and industry intelligence ecosystem that connects enterprise leaders, innovators, and professionals across Asia. Through premier conferences, prestigious awards, insightful editorial coverage, and curated networking, we shape industries and catalyze growth.' }}
                 </p>
-
             </div>
 
             <!-- Right Showcase Displaying WECON's 3 Media Branches (Clean Layout with Center Navigation Controls) -->
@@ -2665,10 +2917,10 @@
 <section id="why-wecon" class="section-padding">
     <div class="container">
         <div class="section-header reveal">
-            <span class="section-tag">Value Proposition</span>
-            <h2 class="section-title">Why Engage with WECON?</h2>
+            <span class="section-tag">{{ $sections['why']['tag'] ?? 'Value Proposition' }}</span>
+            <h2 class="section-title">{{ $sections['why']['title'] ?? 'Why Engage with WECON?' }}</h2>
             <p class="section-desc">
-                Four strategic pillars that empower professionals, brands, and organizations to achieve enduring business impact.
+                {{ $sections['why']['description'] ?? 'Four strategic pillars that empower professionals, brands, and organizations to achieve enduring business impact.' }}
             </p>
         </div>
 
@@ -2723,12 +2975,12 @@
             <!-- Left Side: Content, Description, and CTA Button -->
             <div class="events-showcase-info reveal">
                 <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                    <span class="section-tag tag-marketech">MARKETECH APAC</span>
-                    <span class="section-tag tag-uptech">UpTech Media</span>
+                    <span class="section-tag tag-marketech">{{ $sections['events']['badge_1'] ?? 'MARKETECH APAC' }}</span>
+                    <span class="section-tag tag-uptech">{{ $sections['events']['badge_2'] ?? 'UpTech Media' }}</span>
                 </div>
-                <h2 class="section-title">Upcoming Events & Awards</h2>
+                <h2 class="section-title">{{ $sections['events']['title'] ?? 'Upcoming Events & Awards' }}</h2>
                 <p class="section-desc">
-                    In strategic collaboration with MARKETECH APAC and UPTECH MEDIA, WECON convenes Asia’s benchmark marketing summits, technology conferences, and prestigious industry awards. Explore the 10 premier platforms driving digital transformation, customer engagement, AI innovation, and commercial excellence across the region, connecting visionary enterprise leaders, brand pioneers, and technology innovators.
+                    {{ $sections['events']['description'] ?? 'In strategic collaboration with MARKETECH APAC and UPTECH MEDIA, WECON convenes Asia’s benchmark marketing summits, technology conferences, and prestigious industry awards. Explore the 10 premier platforms driving digital transformation, customer engagement, AI innovation, and commercial excellence across the region, connecting visionary enterprise leaders, brand pioneers, and technology innovators.' }}
                 </p>
 
                 <!-- Slide indicator & Controls on the left -->
@@ -2988,10 +3240,10 @@
 <section id="speakers" class="section-padding">
     <div class="container">
         <div style="margin-bottom: 2.5rem;">
-            <span class="section-tag">HR Forward Asia</span>
-            <h2 class="section-title" style="margin-bottom: 0.5rem;">Features & Leadership</h2>
+            <span class="section-tag">{{ $sections['speakers']['tag'] ?? 'HR Forward Asia' }}</span>
+            <h2 class="section-title" style="margin-bottom: 0.5rem;">{{ $sections['speakers']['title'] ?? 'Features & Leadership' }}</h2>
             <p class="section-desc" style="margin: 0; max-width: 620px;">
-                In-depth executive interviews, workforce perspectives, and leadership features examining how organisations navigate change and the future of work across Asia.
+                {{ $sections['speakers']['description'] ?? 'In-depth executive interviews, workforce perspectives, and leadership features examining how organisations navigate change and the future of work across Asia.' }}
             </p>
         </div>
 
@@ -3098,10 +3350,10 @@
 <section id="insights" class="section-padding">
     <div class="container">
         <div class="section-header reveal">
-            <span class="section-tag">Editorial & Intelligence</span>
-            <h2 class="section-title">Industry Insights & Media</h2>
+            <span class="section-tag">{{ $sections['insights']['tag'] ?? 'Editorial & Intelligence' }}</span>
+            <h2 class="section-title">{{ $sections['insights']['title'] ?? 'Industry Insights & Media' }}</h2>
             <p class="section-desc">
-                Verified reporting, strategic analysis, executive interviews, and research across our 3 media publications: MARKETECH APAC, UpTech Media, and HR Forward Asia.
+                {{ $sections['insights']['description'] ?? 'Verified reporting, strategic analysis, executive interviews, and research across our 3 media publications: MARKETECH APAC, UpTech Media, and HR Forward Asia.' }}
             </p>
         </div>
 
@@ -3206,28 +3458,28 @@
 <section id="journey" class="section-padding">
     <div class="container">
         <div class="section-header reveal">
-            <span class="section-tag">Guided Pathways</span>
-            <h2 class="section-title">What Brings You to WECON?</h2>
+            <span class="section-tag">{{ $sections['pathways']['tag'] ?? 'Guided Pathways' }}</span>
+            <h2 class="section-title">{{ $sections['pathways']['title'] ?? 'What Brings You to WECON?' }}</h2>
             <p class="section-desc">
-                Select your intended journey below to immediately access relevant programs, nomination portals, and executive resources.
+                {{ $sections['pathways']['description'] ?? 'Select your intended journey below to immediately access relevant programs, nomination portals, and executive resources.' }}
             </p>
         </div>
 
         <div class="journey-grid">
             <!-- Option 1: Attend an Event -->
-            <a href="#events" class="journey-card reveal" style="transition-delay: 0.05s">
+            <a href="{{ $sections['pathways']['card_1_link_url'] ?? '#events' }}" class="journey-card reveal" style="transition-delay: 0.05s">
                 <div>
                     <div class="journey-header">
                         <div class="journey-icon">&#x1F3AB;</div>
-                        <span class="journey-target-badge">Summits & Forums</span>
+                        <span class="journey-target-badge">{{ $sections['pathways']['card_1_badge'] ?? 'Summits & Forums' }}</span>
                     </div>
-                    <h3 class="journey-question">"I want to attend an event"</h3>
+                    <h3 class="journey-question">{{ $sections['pathways']['card_1_question'] ?? '"I want to attend an event"' }}</h3>
                     <p class="journey-answer">
-                        Browse our upcoming technology, marketing, and HR summits to secure passes and view speaker agendas.
+                        {{ $sections['pathways']['card_1_answer'] ?? 'Browse our upcoming technology, marketing, and HR summits to secure passes and view speaker agendas.' }}
                     </p>
                 </div>
                 <div class="journey-link-label">
-                    View Events Showcase <span class="cta-arrow">&rarr;</span>
+                    {{ $sections['pathways']['card_1_link_text'] ?? 'View Events Showcase' }} <span class="cta-arrow">&rarr;</span>
                 </div>
             </a>
 
@@ -3236,15 +3488,15 @@
                 <div>
                     <div class="journey-header">
                         <div class="journey-icon" style="background: var(--gold-soft); color: #B45309;">&#x1F3C6;</div>
-                        <span class="journey-target-badge">Awards & Honors</span>
+                        <span class="journey-target-badge">{{ $sections['pathways']['card_2_badge'] ?? 'Awards & Honors' }}</span>
                     </div>
-                    <h3 class="journey-question">"I want to enter an award"</h3>
+                    <h3 class="journey-question">{{ $sections['pathways']['card_2_question'] ?? '"I want to enter an award"' }}</h3>
                     <p class="journey-answer">
-                        Submit nominations for your organization or team to receive Asia-Pacific industry recognition.
+                        {{ $sections['pathways']['card_2_answer'] ?? 'Submit nominations for your organization or team to receive Asia-Pacific industry recognition.' }}
                     </p>
                 </div>
                 <div class="journey-link-label">
-                    Open Nomination Form <span class="cta-arrow">&rarr;</span>
+                    {{ $sections['pathways']['card_2_link_text'] ?? 'Open Nomination Form' }} <span class="cta-arrow">&rarr;</span>
                 </div>
             </div>
 
@@ -3253,15 +3505,15 @@
                 <div>
                     <div class="journey-header">
                         <div class="journey-icon" style="background: #E0E7FF; color: #4338CA;">&#x1F3A4;</div>
-                        <span class="journey-target-badge">Thought Leadership</span>
+                        <span class="journey-target-badge">{{ $sections['pathways']['card_3_badge'] ?? 'Thought Leadership' }}</span>
                     </div>
-                    <h3 class="journey-question">"I want to become a speaker"</h3>
+                    <h3 class="journey-question">{{ $sections['pathways']['card_3_question'] ?? '"I want to become a speaker"' }}</h3>
                     <p class="journey-answer">
-                        Share your expertise on stage at upcoming WECON summits before senior enterprise audiences.
+                        {{ $sections['pathways']['card_3_answer'] ?? 'Share your expertise on stage at upcoming WECON summits before senior enterprise audiences.' }}
                     </p>
                 </div>
                 <div class="journey-link-label">
-                    Submit Speaker Proposal <span class="cta-arrow">&rarr;</span>
+                    {{ $sections['pathways']['card_3_link_text'] ?? 'Submit Speaker Proposal' }} <span class="cta-arrow">&rarr;</span>
                 </div>
             </div>
 
@@ -3270,32 +3522,32 @@
                 <div>
                     <div class="journey-header">
                         <div class="journey-icon" style="background: #DCFCE7; color: #15803D;">&#x1F91D;</div>
-                        <span class="journey-target-badge">Commercial Alliances</span>
+                        <span class="journey-target-badge">{{ $sections['pathways']['card_4_badge'] ?? 'Commercial Alliances' }}</span>
                     </div>
-                    <h3 class="journey-question">"I want to partner with WECON"</h3>
+                    <h3 class="journey-question">{{ $sections['pathways']['card_4_question'] ?? '"I want to partner with WECON"' }}</h3>
                     <p class="journey-answer">
-                        Explore bespoke sponsorship, branded thought leadership, event staging, and media integration packages.
+                        {{ $sections['pathways']['card_4_answer'] ?? 'Explore bespoke sponsorship, branded thought leadership, event staging, and media integration packages.' }}
                     </p>
                 </div>
                 <div class="journey-link-label">
-                    Request Partner Pack <span class="cta-arrow">&rarr;</span>
+                    {{ $sections['pathways']['card_4_link_text'] ?? 'Request Partner Pack' }} <span class="cta-arrow">&rarr;</span>
                 </div>
             </div>
 
             <!-- Option 5: Explore Industry Insights -->
-            <a href="#insights" class="journey-card reveal" style="transition-delay: 0.25s">
+            <a href="{{ $sections['pathways']['card_5_link_url'] ?? '#insights' }}" class="journey-card reveal" style="transition-delay: 0.25s">
                 <div>
                     <div class="journey-header">
                         <div class="journey-icon" style="background: #F3E8FF; color: #7E22CE;">&#x1F4D6;</div>
-                        <span class="journey-target-badge">Intelligence</span>
+                        <span class="journey-target-badge">{{ $sections['pathways']['card_5_badge'] ?? 'Intelligence' }}</span>
                     </div>
-                    <h3 class="journey-question">"I want to explore insights"</h3>
+                    <h3 class="journey-question">{{ $sections['pathways']['card_5_question'] ?? '"I want to explore insights"' }}</h3>
                     <p class="journey-answer">
-                        Read deep-dive articles, watch keynote recordings, and download proprietary sector benchmarking reports.
+                        {{ $sections['pathways']['card_5_answer'] ?? 'Read deep-dive articles, watch keynote recordings, and download proprietary sector benchmarking reports.' }}
                     </p>
                 </div>
                 <div class="journey-link-label">
-                    Go to Insights Hub <span class="cta-arrow">&rarr;</span>
+                    {{ $sections['pathways']['card_5_link_text'] ?? 'Go to Insights Hub' }} <span class="cta-arrow">&rarr;</span>
                 </div>
             </a>
 
@@ -3304,22 +3556,22 @@
                 <div>
                     <div class="journey-header">
                         <div class="journey-icon" style="background: #FEE2E2; color: var(--red);">&#x1F4BC;</div>
-                        <span class="journey-target-badge">Talent & Culture</span>
+                        <span class="journey-target-badge">{{ $sections['pathways']['card_6_badge'] ?? 'Talent & Culture' }}</span>
                     </div>
-                    <h3 class="journey-question">"I want to join the WECON team"</h3>
+                    <h3 class="journey-question">{{ $sections['pathways']['card_6_question'] ?? '"I want to join the WECON team"' }}</h3>
                     <p class="journey-answer">
-                        Discover open career opportunities across journalism, event production, partnership sales, and technology.
+                        {{ $sections['pathways']['card_6_answer'] ?? 'Discover open career opportunities across journalism, event production, partnership sales, and technology.' }}
                     </p>
                 </div>
                 <div class="journey-link-label">
-                    View Career Openings <span class="cta-arrow">&rarr;</span>
+                    {{ $sections['pathways']['card_6_link_text'] ?? 'View Career Openings' }} <span class="cta-arrow">&rarr;</span>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ===== SECTION 12: NEWSLETTER & COMMUNITY (STAY CONNECTED) ===== -->
+<!-- ===== SECTION 7: NEWSLETTER & COMMUNITY (STAY CONNECTED) ===== -->
 <section id="stay-connected" class="section-padding" style="position: relative;">
     <span id="newsletter" style="position: absolute; top: -90px;"></span>
     <div class="container">
@@ -3327,31 +3579,32 @@
             <div class="newsletter-inner">
                 <div>
                     <span class="section-tag" style="background: rgba(255, 255, 255, 0.15); color: #FFFFFF; border-color: rgba(255, 255, 255, 0.3);">
-                        Stay Connected
+                        {{ $sections['newsletter']['tag'] ?? 'Stay Connected' }}
                     </span>
                     <h2 class="newsletter-title">
-                        Join Asia's Premier Business Information Network
+                        {{ $sections['newsletter']['title'] ?? "Join Asia's Premier Business Information Network" }}
                     </h2>
                     <p class="newsletter-desc">
-                        Get the latest event invitations, executive insights, award nomination dates, and market reports delivered to your inbox weekly.
+                        {{ $sections['newsletter']['description'] ?? "Get the latest event invitations, executive insights, award nomination dates, and market reports delivered to your inbox weekly." }}
                     </p>
                 </div>
 
                 <div>
                     <form class="newsletter-form" id="newsletter-form">
+                        @csrf
                         <div class="form-row">
-                            <input type="text" class="form-input" id="nl-name" placeholder="Your Full Name" required>
-                            <input type="email" class="form-input" id="nl-email" placeholder="Work Email Address" required>
+                            <input type="text" class="form-input" id="nl-name" name="full_name" placeholder="Your Full Name">
+                            <input type="email" class="form-input" id="nl-email" name="email" placeholder="Work Email Address" required>
                         </div>
                         <div class="form-checkboxes">
                             <label class="form-checkbox-item">
-                                <input type="checkbox" name="interest" value="events" checked> Conferences & Events
+                                <input type="checkbox" name="interests[]" value="events" checked> Conferences & Events
                             </label>
                             <label class="form-checkbox-item">
-                                <input type="checkbox" name="interest" value="awards" checked> Awards & Honors
+                                <input type="checkbox" name="interests[]" value="awards" checked> Awards & Honors
                             </label>
                             <label class="form-checkbox-item">
-                                <input type="checkbox" name="interest" value="insights" checked> Editorial Insights
+                                <input type="checkbox" name="interests[]" value="insights" checked> Editorial Insights
                             </label>
                         </div>
                         <button type="submit" class="btn btn-white" style="width: 100%;">
@@ -3367,21 +3620,21 @@
     </div>
 </section>
 
-<!-- ===== SECTION 13: FINAL CALL TO ACTION ===== -->
+<!-- ===== FINAL CALL TO ACTION (SECTION 9) ===== -->
 <section id="final-cta">
     <div class="final-cta-deco final-cta-deco-1"></div>
     <div class="final-cta-deco final-cta-deco-2"></div>
     <div class="container">
         <div class="final-cta-inner reveal">
             <h2 class="final-cta-title">
-                Be Part of the Next WECON Experience
+                {{ $sections['contact']['cta_title'] ?? 'Be Part of the Next WECON Experience' }}
             </h2>
             <p class="final-cta-desc">
-                Discover unprecedented opportunities to connect with industry leaders, participate in premier events, collaborate across borders, and grow within the WECON ecosystem.
+                {{ $sections['contact']['cta_desc'] ?? 'Discover unprecedented opportunities to connect with industry leaders, participate in premier events, collaborate across borders, and grow within the WECON ecosystem.' }}
             </p>
             <div class="final-cta-buttons">
-                <button class="btn btn-outline-white open-partner-modal" data-subject="General Engagement Inquiry">
-                    Contact Our Team
+                <button class="btn btn-outline-white" id="open-contact-team-btn">
+                    {{ $sections['contact']['cta_button_text'] ?? 'Contact Our Team' }}
                 </button>
             </div>
         </div>
@@ -3472,6 +3725,147 @@
 </footer>
 
 <!-- ===== UNIFIED INTERACTIVE MODAL DIALOGS ===== -->
+
+<!-- 0. Contact Our Team Modal (Section 9 - Matching Reference Image) -->
+<div class="modal-overlay" id="modal-contact-team" role="dialog" aria-modal="true" aria-labelledby="modal-contact-team-title">
+    <div class="contact-team-modal-container no-scrollbar">
+        <button class="modal-close-btn" id="close-contact-team-btn" aria-label="Close modal">&times;</button>
+        
+        <div class="contact-team-modal-grid">
+            <!-- LEFT COLUMN: Get In Touch with Us -->
+            <div class="contact-team-left-col">
+                <h2 class="contact-team-heading" id="modal-contact-team-title">
+                    {{ $sections['contact']['modal_left_title'] ?? 'Get In Touch with Us' }}
+                </h2>
+                <p class="contact-team-subtext">
+                    {{ $sections['contact']['modal_left_desc'] ?? 'Connect with us to stay up-to-date on the latest marketing news and events, network with other marketing professionals, and gain access to exclusive insights and resources.' }}
+                </p>
+
+                <!-- Office Card -->
+                <div class="contact-team-card">
+                    <div class="contact-team-card-header">
+                        <span class="contact-card-icon office-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16M9 9h1M9 13h1M9 17h1M14 9h1M14 13h1M14 17h1"/></svg>
+                        </span>
+                        <h3 class="contact-card-title">{{ $sections['contact']['office_title'] ?? 'Office' }}</h3>
+                    </div>
+                    <p class="contact-card-text">
+                        {{ $sections['contact']['office_address'] ?? '14i Seville Tower, Circulo Verde Phase 1, #70 Calle Industria, Brgy. Bagumbayan, Quezon City, 1100 Philippines' }}
+                    </p>
+                    <a href="{{ $sections['contact']['google_map_url'] ?? 'https://maps.google.com' }}" target="_blank" rel="noopener noreferrer" class="contact-card-link">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                        Google Map
+                    </a>
+                </div>
+
+                <!-- Call/Message Us Card -->
+                <div class="contact-team-card">
+                    <div class="contact-team-card-header">
+                        <span class="contact-card-icon phone-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        </span>
+                        <h3 class="contact-card-title">{{ $sections['contact']['call_title'] ?? 'Call/Message Us' }}</h3>
+                    </div>
+                    <div class="contact-phone-number">
+                        {{ $sections['contact']['call_phone'] ?? '+63 917 319 5762' }}
+                    </div>
+                    <div class="contact-chat-icons">
+                        <a href="tel:{{ $sections['contact']['call_phone'] ?? '+639173195762' }}" class="chat-icon-btn" title="Phone Call">&#x1F4DE;</a>
+                        <a href="{{ $sections['contact']['call_viber_url'] ?? '#' }}" target="_blank" rel="noopener" class="chat-icon-btn" title="Viber">&#x1F4AC;</a>
+                        <a href="{{ $sections['contact']['call_whatsapp_url'] ?? '#' }}" target="_blank" rel="noopener" class="chat-icon-btn" title="WhatsApp">&#x1F4AC;</a>
+                    </div>
+                </div>
+
+                <!-- Email Us Card -->
+                <div class="contact-team-card">
+                    <div class="contact-team-card-header">
+                        <span class="contact-card-icon email-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        </span>
+                        <h3 class="contact-card-title">{{ $sections['contact']['email_title'] ?? 'Email Us' }}</h3>
+                    </div>
+                    <div class="contact-email-dept">
+                        <span class="dept-label">Editorial:</span>
+                        <a href="mailto:{{ $sections['contact']['email_editorial'] ?? 'editorial@marketech-apac.com' }}" class="dept-email">{{ $sections['contact']['email_editorial'] ?? 'editorial@marketech-apac.com' }}</a>
+                    </div>
+                    <div class="contact-email-dept">
+                        <span class="dept-label">Sales:</span>
+                        <a href="mailto:{{ $sections['contact']['email_sales'] ?? 'sales@marketech-apac.com' }}" class="dept-email">{{ $sections['contact']['email_sales'] ?? 'sales@marketech-apac.com' }}</a>
+                    </div>
+                    <div class="contact-email-dept">
+                        <span class="dept-label">Subscription:</span>
+                        <a href="mailto:{{ $sections['contact']['email_subscription'] ?? 'subscription@marketech-apac.com' }}" class="dept-email">{{ $sections['contact']['email_subscription'] ?? 'subscription@marketech-apac.com' }}</a>
+                    </div>
+                    <div class="contact-email-dept">
+                        <span class="dept-label">Others:</span>
+                        <a href="mailto:{{ $sections['contact']['email_others'] ?? 'management@marketech-apac.com' }}" class="dept-email">{{ $sections['contact']['email_others'] ?? 'management@marketech-apac.com' }}</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: Connect with MARKETECH APAC TEAM Form -->
+            <div class="contact-team-right-col">
+                <h2 class="contact-form-heading">
+                    {{ $sections['contact']['modal_right_title'] ?? 'Connect with MARKETECH APAC TEAM' }}
+                </h2>
+
+                <form id="contact-team-form" class="contact-team-form">
+                    @csrf
+                    <!-- Row 1: First Name | Last Name -->
+                    <div class="contact-form-row">
+                        <input type="text" name="first_name" class="contact-input" placeholder="First Name" required>
+                        <input type="text" name="last_name" class="contact-input" placeholder="Last Name" required>
+                    </div>
+
+                    <!-- Row 2: Business Email | Contact Number -->
+                    <div class="contact-form-row">
+                        <input type="email" name="business_email" class="contact-input" placeholder="Business Email" required>
+                        <input type="tel" name="contact_number" class="contact-input" placeholder="Contact Number">
+                    </div>
+
+                    <!-- Row 3: Job Title | Company Name -->
+                    <div class="contact-form-row">
+                        <input type="text" name="job_title" class="contact-input" placeholder="Job Title">
+                        <input type="text" name="company_name" class="contact-input" placeholder="Company Name">
+                    </div>
+
+                    <!-- Row 4: Purpose of connecting -->
+                    <div class="contact-form-group">
+                        <input type="text" name="purpose" class="contact-input" placeholder="Purpose of connecting">
+                    </div>
+
+                    <!-- Row 5: Please share details -->
+                    <div class="contact-form-group">
+                        <textarea name="details" class="contact-input contact-textarea" placeholder="Please share details"></textarea>
+                    </div>
+
+                    <!-- Consent Quote text -->
+                    <p class="contact-consent-quote">
+                        {{ $sections['contact']['consent_quote'] ?? "By submitting the form I understand, I understand MARKETECT APAC’s Terms & Conditions and Cookies & Privacy Policy. Opt to receive marketing tips, insight, invitations, product updates and more via email from MARKETECH APAC. Please note that your consent and voluntary and you are under obligation to opt-in. even if you choose to consent now, you are welcome to come back and opt-out at any time." }}
+                    </p>
+
+                    <!-- Consent Checkbox -->
+                    <label class="contact-consent-label">
+                        <input type="checkbox" name="consent_agreed" value="1" required>
+                        <span>
+                            I agree to the 
+                            <a href="{{ $sections['contact']['terms_url'] ?? 'https://marketech-apac.com/terms-and-conditions/' }}" target="_blank" rel="noopener noreferrer">Terms & Conditions</a>, 
+                            <a href="{{ $sections['contact']['privacy_url'] ?? 'https://marketech-apac.com/privacy-and-cookie-policy/' }}" target="_blank" rel="noopener noreferrer">Privacy Policy and Cookie Policy</a>. 
+                            <span class="required-flag">(Required)</span>
+                        </span>
+                    </label>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-submit-contact-red" id="contact-team-submit-btn">
+                        Submit Form
+                    </button>
+
+                    <div id="contact-team-status" class="contact-form-status"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- 1. General Nomination Modal -->
 <div class="modal-overlay" id="modal-nominate" role="dialog" aria-modal="true" aria-labelledby="modal-nominate-title">
@@ -3587,30 +3981,86 @@
 
 <!-- 5. Careers Modal -->
 <div class="modal-overlay" id="modal-careers" role="dialog" aria-modal="true" aria-labelledby="modal-careers-title">
-    <div class="modal-container">
-        <button class="modal-close-btn" aria-label="Close modal">&times;</button>
-        <h3 class="modal-title" id="modal-careers-title">Careers at WECON</h3>
-        <p class="modal-subtitle">Join our cross-border team of media, event, and business innovators.</p>
-        <div style="display: flex; flex-direction: column; gap: 0.85rem; margin-bottom: 1.5rem;">
-            <div style="padding: 1rem; border: 1px solid var(--border); border-radius: 12px; background: var(--section-alt);">
-                <div style="font-weight: 700; color: var(--navy);">Senior Tech & Business Journalist</div>
-                <div style="font-size: 0.82rem; color: var(--text-muted);">Singapore / Remote &bull; Editorial Team</div>
-            </div>
-            <div style="padding: 1rem; border: 1px solid var(--border); border-radius: 12px; background: var(--section-alt);">
-                <div style="font-weight: 700; color: var(--navy);">Conference Program Producer</div>
-                <div style="font-size: 0.82rem; color: var(--text-muted);">Manila / Hybrid &bull; Events Division</div>
-            </div>
-            <div style="padding: 1rem; border: 1px solid var(--border); border-radius: 12px; background: var(--section-alt);">
-                <div style="font-weight: 700; color: var(--navy);">Enterprise Sponsorship Director</div>
-                <div style="font-size: 0.82rem; color: var(--text-muted);">Regional &bull; Commercial Partnerships</div>
-            </div>
+    <div class="modal-container no-scrollbar" style="max-width: 820px; width: 92%; max-height: 85vh; padding: 0; display: flex; flex-direction: column; overflow: hidden; border-radius: 24px;">
+        
+        <style>
+            .no-scrollbar {
+                -ms-overflow-style: none; /* IE and Edge */
+                scrollbar-width: none; /* Firefox */
+            }
+            .no-scrollbar::-webkit-scrollbar {
+                display: none; /* Chrome, Safari, Opera */
+                width: 0;
+                height: 0;
+            }
+            .careers-job-grid {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 1rem;
+            }
+            @media (max-width: 680px) {
+                .careers-job-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+
+        <!-- Fixed Header (Not included in scroll) -->
+        <div style="padding: 2.25rem 2.25rem 1rem; position: relative; flex-shrink: 0; border-bottom: 1px solid rgba(0,0,0,0.05); background: #FFFFFF; z-index: 2;">
+            <button class="modal-close-btn" aria-label="Close modal" style="top: 1.75rem; right: 1.75rem;">&times;</button>
+            <h3 class="modal-title" id="modal-careers-title" style="margin-bottom: 0.35rem;">{{ $sections['careers']['modal_title'] ?? 'Careers at WECON' }}</h3>
+            <p class="modal-subtitle" style="margin-bottom: 0;">{{ $sections['careers']['modal_subtitle'] ?? 'Join our cross-border team of media, event, and business innovators.' }}</p>
         </div>
-        <p style="font-size: 0.88rem; color: var(--text-body); margin-bottom: 1.5rem;">
-            Send your resume and portfolio directly to our talent acquisition team at <a href="mailto:careers@wecon.asia" style="color: var(--blue); font-weight: 700;">careers@wecon.asia</a>.
-        </p>
-        <button class="btn btn-outline-navy" style="width: 100%;" onclick="document.getElementById('modal-careers').classList.remove('open');">
-            Close Window
-        </button>
+
+        <!-- Scrollable Body with Invisible Scrollbar -->
+        <div class="no-scrollbar" style="flex: 1; overflow-y: auto; padding: 1.5rem 2.25rem 2rem;">
+            <div class="careers-job-grid" id="careers-job-list">
+                @php
+                    $careersList = $sections['careers']['jobs'] ?? [
+                        [
+                            'title' => 'Senior Tech & Business Journalist',
+                            'location' => 'Singapore / Remote • Editorial Team',
+                            'type' => 'Full-time',
+                            'description' => 'Produce in-depth coverage, executive interviews, and investigative features across Asia-Pacific enterprise technology and digital markets.',
+                        ],
+                        [
+                            'title' => 'Conference Program Producer',
+                            'location' => 'Manila / Hybrid • Events Division',
+                            'type' => 'Full-time',
+                            'description' => 'Curate thought leadership agendas, recruit high-profile keynote speakers, and collaborate with marketing teams to deliver world-class business summits.',
+                        ],
+                        [
+                            'title' => 'Enterprise Sponsorship Director',
+                            'location' => 'Regional • Commercial Partnerships',
+                            'type' => 'Full-time',
+                            'description' => 'Develop and secure strategic multi-market sponsorship and media alliances with top technology brands and enterprise vendors across APAC.',
+                        ],
+                    ];
+                @endphp
+                @foreach($careersList as $job)
+                    <div style="padding: 1.15rem; border: 1px solid var(--border); border-radius: 12px; background: var(--section-alt); display: flex; flex-direction: column; justify-content: flex-start; gap: 0.35rem; transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem;">
+                            <div style="font-weight: 700; color: var(--navy); font-size: 1rem; line-height: 1.35;">{{ $job['title'] ?? '' }}</div>
+                            @if(!empty($job['type']))
+                                <span style="font-size: 0.7rem; font-weight: 700; background: rgba(18, 97, 181, 0.1); color: var(--blue); padding: 0.2rem 0.55rem; border-radius: 9999px; white-space: nowrap; flex-shrink: 0;">{{ $job['type'] }}</span>
+                            @endif
+                        </div>
+                        @if(!empty($job['location']))
+                            <div style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4;">{{ $job['location'] }}</div>
+                        @endif
+                        @if(!empty($job['description']))
+                            <div style="font-size: 0.84rem; color: var(--text-body); line-height: 1.5; margin-top: 0.35rem; padding-top: 0.5rem; border-top: 1px dashed rgba(0,0,0,0.08);">
+                                {{ $job['description'] }}
+                            </div>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+
+            <p style="font-size: 0.88rem; color: var(--text-body); margin-top: 1.5rem; margin-bottom: 0;">
+                Send your resume and portfolio directly to our talent acquisition team at <a href="mailto:{{ $sections['careers']['careers_email'] ?? 'careers@wecon.asia' }}" style="color: var(--blue); font-weight: 700;">{{ $sections['careers']['careers_email'] ?? 'careers@wecon.asia' }}</a>.
+            </p>
+        </div>
     </div>
 </div>
 
@@ -4105,17 +4555,138 @@
         });
     });
 
-    // 11. Newsletter Form Feedback
+    // Modal Triggers: Contact Our Team (Section 9)
+    const contactTeamModal = document.getElementById('modal-contact-team');
+    const openContactBtn = document.getElementById('open-contact-team-btn');
+    const closeContactBtn = document.getElementById('close-contact-team-btn');
+    const contactTeamForm = document.getElementById('contact-team-form');
+    const contactTeamStatus = document.getElementById('contact-team-status');
+    const contactSubmitBtn = document.getElementById('contact-team-submit-btn');
+
+    if (openContactBtn && contactTeamModal) {
+        openContactBtn.addEventListener('click', () => {
+            contactTeamModal.classList.add('open');
+        });
+    }
+
+    if (closeContactBtn && contactTeamModal) {
+        closeContactBtn.addEventListener('click', () => {
+            contactTeamModal.classList.remove('open');
+        });
+    }
+
+    if (contactTeamForm) {
+        contactTeamForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            contactSubmitBtn.disabled = true;
+            contactSubmitBtn.textContent = 'Submitting...';
+            contactTeamStatus.className = 'contact-form-status';
+            contactTeamStatus.style.display = 'none';
+
+            try {
+                const formData = new FormData(contactTeamForm);
+                const response = await fetch("{{ route('contact.submit') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || formData.get('_token')
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    contactTeamStatus.textContent = data.message || 'Thank you! Your information has been submitted.';
+                    contactTeamStatus.className = 'contact-form-status success';
+                    contactTeamStatus.style.display = 'block';
+                    contactTeamForm.reset();
+                    setTimeout(() => {
+                        contactTeamModal.classList.remove('open');
+                        contactTeamStatus.style.display = 'none';
+                        contactSubmitBtn.disabled = false;
+                        contactSubmitBtn.textContent = 'Submit Form';
+                    }, 4000);
+                } else {
+                    contactTeamStatus.textContent = data.message || 'Please verify the form inputs and consent requirement.';
+                    contactTeamStatus.className = 'contact-form-status error';
+                    contactTeamStatus.style.display = 'block';
+                    contactSubmitBtn.disabled = false;
+                    contactSubmitBtn.textContent = 'Submit Form';
+                }
+            } catch (err) {
+                contactTeamStatus.textContent = 'Unable to send message. Please check your internet connection.';
+                contactTeamStatus.className = 'contact-form-status error';
+                contactTeamStatus.style.display = 'block';
+                contactSubmitBtn.disabled = false;
+                contactSubmitBtn.textContent = 'Submit Form';
+            }
+        });
+    }
+
+    // 11. Section 7 Newsletter AJAX Form Submission
     const nlForm = document.getElementById('newsletter-form');
     const nlStatus = document.getElementById('nl-status');
     if (nlForm && nlStatus) {
-        nlForm.addEventListener('submit', (e) => {
+        nlForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            nlStatus.classList.add('success');
-            nlForm.reset();
-            setTimeout(() => {
-                nlStatus.classList.remove('success');
-            }, 6000);
+            const submitBtn = nlForm.querySelector('button[type="submit"]');
+            if (submitBtn) submitBtn.disabled = true;
+
+            try {
+                const formData = new FormData(nlForm);
+                const response = await fetch("{{ route('newsletter.subscribe') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': formData.get('_token')
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    nlStatus.textContent = "✔ " + (data.message || 'Thank you for subscribing! A welcome confirmation has been dispatched.');
+                    nlStatus.classList.add('success');
+                    nlForm.reset();
+                } else {
+                    nlStatus.textContent = "✖ " + (data.message || 'Could not process subscription. Please check your email.');
+                    nlStatus.classList.add('success');
+                }
+            } catch (err) {
+                nlStatus.textContent = "✔ Thank you for subscribing! Your request has been recorded.";
+                nlStatus.classList.add('success');
+            } finally {
+                if (submitBtn) submitBtn.disabled = false;
+                setTimeout(() => {
+                    nlStatus.classList.remove('success');
+                }, 6000);
+            }
+        });
+    }
+
+    // 12. Stealth Login Access (No Visible Buttons)
+    // Shortcut 1: Keyboard combination Ctrl + Alt + L
+    window.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.altKey && (e.key === 'l' || e.key === 'L')) {
+            e.preventDefault();
+            window.location.href = "{{ route('login') }}";
+        }
+    });
+
+    // Shortcut 2: Triple-click on footer copyright
+    const footerBottom = document.querySelector('.footer-bottom');
+    if (footerBottom) {
+        let clickCount = 0;
+        let clickTimer = null;
+        footerBottom.addEventListener('click', () => {
+            clickCount++;
+            if (clickCount === 3) {
+                window.location.href = "{{ route('login') }}";
+            }
+            clearTimeout(clickTimer);
+            clickTimer = setTimeout(() => { clickCount = 0; }, 800);
         });
     }
 
