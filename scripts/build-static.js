@@ -150,3 +150,17 @@ html = html.replace(/@php[\s\S]*?\$careersList[\s\S]*?@endphp\s*@foreach\(\$care
 const indexHtmlPath = path.join(distDir, 'index.html');
 fs.writeFileSync(indexHtmlPath, html, 'utf8');
 console.log('✓ Successfully generated dist/index.html');
+
+// Generate static login.html for Netlify
+const loginBladePath = path.join(viewsDir, 'auth', 'login.blade.php');
+if (fs.existsSync(loginBladePath)) {
+    let loginHtml = fs.readFileSync(loginBladePath, 'utf8');
+    loginHtml = loginHtml.replace(/<meta name="csrf-token" content="\{\{[^}]+\}\}">/gi, '<meta name="csrf-token" content="">');
+    loginHtml = loginHtml.replace(/href="\{\{\s*url\('\/'\)\s*\}\}"/g, 'href="index.html"');
+    loginHtml = loginHtml.replace(/src="\{\{\s*asset\(['"]([^'"]+)['"]\)\s*\}\}"/g, 'src="$1"');
+    loginHtml = loginHtml.replace(/\{\{\s*route\('login\.post'\)\s*\}\}/g, '/admin/login');
+    loginHtml = loginHtml.replace(/\{\{\s*route\('admin\.dashboard'\)\s*\}\}/g, '/admin/dashboard');
+    fs.writeFileSync(path.join(distDir, 'login.html'), loginHtml, 'utf8');
+    console.log('✓ Successfully generated dist/login.html');
+}
+
