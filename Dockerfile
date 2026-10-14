@@ -47,15 +47,18 @@ COPY . .
 COPY --from=frontend /app/public/build ./public/build
 COPY --from=frontend /app/dist ./dist
 
+# Ensure .env exists in container for key:generate
+RUN if [ ! -f .env ]; then cp .env.example .env; fi
+
 # Install production PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Set directory permissions
+# Set full directory ownership and permissions
 RUN mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs bootstrap/cache database \
-    && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database \
+    && chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database \
     && chmod +x docker/start.sh
 
 EXPOSE 80
 
-CMD ["docker/start.sh"]
+CMD ["bash", "docker/start.sh"]

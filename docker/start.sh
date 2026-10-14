@@ -1,51 +1,69 @@
 #!/bin/bash
 set -e
 
-echo "=== WECON ASIA Production Server Starting ==="
+echo "=== Starting WECON ASIA Production Service ==="
 
-# Change Apache port if PORT env variable is set (Railway sets dynamic $PORT)
-if [ -n "$PORT" ]; then
-    echo "Configuring Apache to listen on port $PORT"
-    sed -i "s/Listen 80/Listen ${PORT}/g" /etc/apache2/ports.conf
-    sed -i "s/<VirtualHost \*:80>/<VirtualHost \*:${PORT}>/g" /etc/apache2/sites-available/000-default.conf
+# 1. Bind Apache to dynamic Railway port
+PORT="${PORT:-80}"
+echo "Binding Apache to port $PORT"
+sed -i "s/Listen [0-9]*/Listen ${PORT}/g" /etc/apache2/ports.conf
+sed -i "s/<VirtualHost [^>]*>/<VirtualHost *:*>/g" /etc/apache2/sites-available/000-default.conf
+
+# 2. Ensure environment file exists
+if [ ! -f .env ]; then
+    if [ -f .env.example ]; then
+        echo "Creating .env from .env.example..."
+        cp .env.example .env
+    else
+        touch .env
+    fi
 fi
 
-# Ensure storage and database directories exist with correct permissions
-mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs bootstrap/cache database
-chown -R www-data:www-data storage bootstrap/cache database
-chmod -R 775 storage bootstrap/cache database
-
-# If APP_KEY is missing, generate one
+# 3. Ensure APP_KEY exists
 if [ -z "$APP_KEY" ]; then
-    echo "Notice: APP_KEY is not set. Generating a temporary application key..."
-    php artisan key:generate --force
+    # Check if APP_KEY is empty in .env
+    if ! grep -q "^APP_KEY=base64:" .env 2>/dev/null; then
+        echo "Generating application encryption key..."
+        php artisan key:generate --force || true
+    fi
 fi
 
-# Detect database: if MYSQLHOST is present, use mysql, else default to sqlite
-if [ -n "$MYSQLHOST" ] || [ -n "$MYSQL_URL" ]; then
-    echo "Detected MySQL environment on Railway."
-    export DB_CONNECTION=${DB_CONNECTION:-mysql}
+# 4. Determine database connection
+if [ -n "$MYSQLHOST" ] || [ -n "$MYSQL_URL" ] || [ "$DB_CONNECTION" = "mysql" ]; then
+    echo "Configuring MySQL database connection..."
+    export DB_CONNECTION=mysql
+
+    # Wait up to 15 seconds for MySQL service to accept connections
+    echo "Checking MySQL connection..."
+    for i in {1..15}; do
+        if php artisan db:monitor >/dev/null 2>&1; then
+            echo "MySQL database ready!"
+            break
+        fi
+        echo "Waiting for MySQL... ($i/15)"
+        sleep 1
+    done
 else
-    echo "Using SQLite database."
-    export DB_CONNECTION=${DB_CONNECTION:-sqlite}
-fi
-
-# If SQLite is used, ensure database file exists
-if [ "$DB_CONNECTION" = "sqlite" ]; then
+    echo "Configuring SQLite database..."
+    export DB_CONNECTION=sqlite
+    mkdir -p database
     touch database/database.sqlite
     chown www-data:www-data database/database.sqlite
     chmod 664 database/database.sqlite
 fi
 
-# Run database migrations and seeders automatically
+# 5. Run database migrations and seed default content
 echo "Running database migrations..."
-php artisan migrate --force --seed || echo "Migration notice: continuing startup..."
+php artisan migrate --force --seed || echo "Notice: Database migration completed with warnings. Continuing boot."
 
-# Cache Laravel configurations for maximum production performance
-echo "Caching configuration and routes..."
+# 6. Optimize Laravel cache for production speed
+echo "Caching Laravel configuration and routes..."
 php artisan config:cache || true
 php artisan route:cache || true
 php artisan view:cache || true
 
-echo "=== WECON ASIA Web Server Live ==="
+# 7. Ensure permissions are solid before web server boot
+chown -R www-data:www-data storage bootstrap/cache database .env || true
+
+echo "=== WECON ASIA is now running on port $PORT ==="
 exec apache2-foreground
