@@ -48,16 +48,19 @@ COPY . .
 COPY --from=frontend /app/public/build ./public/build
 COPY --from=frontend /app/dist ./dist
 
-# Ensure .env exists in container for key:generate
-RUN if [ ! -f .env ]; then cp .env.example .env; fi
-
 # Install production PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Set full directory ownership and permissions
-RUN mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs bootstrap/cache database \
+# Prepare environment file and pre-generate application key directly inside image
+RUN cp .env.example .env \
+    && php artisan key:generate --force
+
+# Create database and storage directories with correct permissions
+RUN mkdir -p database storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs bootstrap/cache \
+    && touch database/database.sqlite \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database \
+    && chmod 664 /var/www/html/database/database.sqlite \
     && chmod +x docker/start.sh
 
 EXPOSE 80

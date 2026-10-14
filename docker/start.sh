@@ -13,22 +13,16 @@ echo "Listen ${PORT}" > /etc/apache2/ports.conf
 # Update VirtualHost to listen on the dynamic port
 sed -i "s/<VirtualHost [^>]*>/<VirtualHost \*:${PORT}>/g" /etc/apache2/sites-available/000-default.conf
 
-# 2. Ensure .env exists
+# 2. Ensure .env exists (failsafe)
 if [ ! -f .env ]; then
-    if [ -f .env.example ]; then
-        echo "Creating .env from .env.example..."
-        cp .env.example .env
-    else
-        touch .env
-    fi
+    cp .env.example .env || touch .env
 fi
 
-# 3. Ensure APP_KEY exists
-if [ -z "$APP_KEY" ]; then
-    if ! grep -q "^APP_KEY=base64:" .env 2>/dev/null; then
-        echo "Generating application encryption key..."
-        php artisan key:generate --force || true
-    fi
+# 3. Synchronize APP_KEY if provided as environment variable
+if [ -n "$APP_KEY" ]; then
+    sed -i "s|^APP_KEY=.*|APP_KEY=${APP_KEY}|" .env 2>/dev/null || echo "APP_KEY=${APP_KEY}" >> .env
+elif ! grep -q "^APP_KEY=base64:" .env 2>/dev/null; then
+    php artisan key:generate --force || true
 fi
 
 # 4. Determine database connection
