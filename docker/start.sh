@@ -1,15 +1,19 @@
 #!/bin/bash
 set -e
 
-echo "=== Starting WECON ASIA Production Service ==="
+echo "=== WECON ASIA Production Server Starting ==="
 
-# 1. Bind Apache to dynamic Railway port
+# 1. Configure dynamic Railway port
 PORT="${PORT:-80}"
-echo "Binding Apache to port $PORT"
-sed -i "s/Listen [0-9]*/Listen ${PORT}/g" /etc/apache2/ports.conf
-sed -i "s/<VirtualHost [^>]*>/<VirtualHost *:*>/g" /etc/apache2/sites-available/000-default.conf
+echo "Configuring Apache to listen on port: $PORT"
 
-# 2. Ensure environment file exists
+# Overwrite ports.conf to listen ONLY on the dynamic port (avoids duplicate port collision)
+echo "Listen ${PORT}" > /etc/apache2/ports.conf
+
+# Update VirtualHost to listen on the dynamic port
+sed -i "s/<VirtualHost [^>]*>/<VirtualHost \*:${PORT}>/g" /etc/apache2/sites-available/000-default.conf
+
+# 2. Ensure .env exists
 if [ ! -f .env ]; then
     if [ -f .env.example ]; then
         echo "Creating .env from .env.example..."
@@ -21,7 +25,6 @@ fi
 
 # 3. Ensure APP_KEY exists
 if [ -z "$APP_KEY" ]; then
-    # Check if APP_KEY is empty in .env
     if ! grep -q "^APP_KEY=base64:" .env 2>/dev/null; then
         echo "Generating application encryption key..."
         php artisan key:generate --force || true
@@ -30,21 +33,20 @@ fi
 
 # 4. Determine database connection
 if [ -n "$MYSQLHOST" ] || [ -n "$MYSQL_URL" ] || [ "$DB_CONNECTION" = "mysql" ]; then
-    echo "Configuring MySQL database connection..."
+    echo "Using MySQL database..."
     export DB_CONNECTION=mysql
 
-    # Wait up to 15 seconds for MySQL service to accept connections
-    echo "Checking MySQL connection..."
-    for i in {1..15}; do
-        if php artisan db:monitor >/dev/null 2>&1; then
-            echo "MySQL database ready!"
+    # Wait up to 10s for MySQL if not immediately available
+    for i in {1..10}; do
+        if php artisan db:show >/dev/null 2>&1; then
+            echo "MySQL connection verified!"
             break
         fi
-        echo "Waiting for MySQL... ($i/15)"
+        echo "Waiting for database connection... ($i/10)"
         sleep 1
     done
 else
-    echo "Configuring SQLite database..."
+    echo "Using SQLite database..."
     export DB_CONNECTION=sqlite
     mkdir -p database
     touch database/database.sqlite
@@ -54,16 +56,21 @@ fi
 
 # 5. Run database migrations and seed default content
 echo "Running database migrations..."
-php artisan migrate --force --seed || echo "Notice: Database migration completed with warnings. Continuing boot."
+php artisan migrate --force --seed || echo "Migration notice: continuing startup..."
 
-# 6. Optimize Laravel cache for production speed
+# 6. Optimize Laravel caches for production
 echo "Caching Laravel configuration and routes..."
 php artisan config:cache || true
 php artisan route:cache || true
 php artisan view:cache || true
 
-# 7. Ensure permissions are solid before web server boot
+# 7. Ensure permissions are set
 chown -R www-data:www-data storage bootstrap/cache database .env || true
+chmod -R 775 storage bootstrap/cache database || true
 
-echo "=== WECON ASIA is now running on port $PORT ==="
+# 8. Verify Apache syntax before launch
+echo "Verifying Apache configuration syntax..."
+apache2ctl configtest || true
+
+echo "=== WECON ASIA Web Server Live on Port $PORT ==="
 exec apache2-foreground
