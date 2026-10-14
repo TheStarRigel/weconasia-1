@@ -2720,7 +2720,7 @@
     <div class="nav-container">
         <!-- Logo Lockup -->
         <a href="#hero" class="nav-logo" aria-label="WECON Home">
-            <img src="{{ asset('images/WECON ASIA (2LINE)_Horizontal_Coloured.png') }}?v={{ file_exists(public_path('images/WECON ASIA (2LINE)_Horizontal_Coloured.png')) ? filemtime(public_path('images/WECON ASIA (2LINE)_Horizontal_Coloured.png')) : 1 }}" alt="WECON ASIA" class="nav-logo-img">
+            <img src="{{ asset('images/WECON ASIA (2LINE)_Horizontal_Coloured.png') }}?v={{ file_exists(public_path('images/WECON ASIA (2LINE)_Horizontal_Coloured.png')) ? filemtime(public_path('images/WECON ASIA (2LINE)_Horizontal_Coloured.png')) : 1 }}" alt="WECON ASIA" class="nav-logo-img" onerror="this.style.display='none'">
         </a>
 
         <!-- Mobile Navigation Toggle -->
@@ -2814,7 +2814,8 @@
                 <img src="{{ asset($sections['hero']['hero_image'] ?? 'images/hero-visual.png') }}?v={{ file_exists(public_path($sections['hero']['hero_image'] ?? 'images/hero-visual.png')) ? filemtime(public_path($sections['hero']['hero_image'] ?? 'images/hero-visual.png')) : 1 }}" 
                      alt="WECON Asia Business Ecosystem" 
                      class="hero-photo-img" 
-                     id="hero-visual-photo">
+                     id="hero-visual-photo"
+                     onerror="this.onerror=null; this.closest('.hero-photo-card').style.display='none';">
             </div>
         </div>
     </div>
@@ -2849,7 +2850,7 @@
                     <!-- Branch Slide 1: MARKETECH APAC -->
                     <div class="branch-slide active" data-index="0">
                         <div class="branch-slide-brand">
-                            <img src="{{ asset('images/marketech-logo.png') }}" alt="MARKETECH APAC" class="branch-slide-logo" />
+                            <img src="{{ asset('images/marketech-logo.png') }}" alt="MARKETECH APAC" class="branch-slide-logo" onerror="this.style.display='none';" />
                         </div>
                         <div class="branch-slide-excerpt-box">
                             <p class="branch-slide-excerpt">
@@ -2866,7 +2867,7 @@
                     <!-- Branch Slide 2: UpTech Media -->
                     <div class="branch-slide" data-index="1">
                         <div class="branch-slide-brand">
-                            <img src="{{ asset('images/uptech-logo.png') }}" alt="UpTech Media" class="branch-slide-logo" />
+                            <img src="{{ asset('images/uptech-logo.png') }}" alt="UpTech Media" class="branch-slide-logo" onerror="this.style.display='none';" />
                         </div>
                         <div class="branch-slide-excerpt-box">
                             <p class="branch-slide-excerpt">
@@ -2883,7 +2884,7 @@
                     <!-- Branch Slide 3: HR Forward Asia -->
                     <div class="branch-slide" data-index="2">
                         <div class="branch-slide-brand">
-                            <img src="{{ asset('images/hrforward-logo.png') }}" alt="HR Forward Asia" class="branch-slide-logo" />
+                            <img src="{{ asset('images/hrforward-logo.png') }}" alt="HR Forward Asia" class="branch-slide-logo" onerror="this.style.display='none';" />
                         </div>
                         <div class="branch-slide-excerpt-box">
                             <p class="branch-slide-excerpt">
@@ -3023,7 +3024,7 @@
                         <div class="marketech-slide">
                             <a href="https://marketech-apac.com/featured-events/" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; flex-grow: 1;">
                                 <div class="slide-brand-frame">
-                                    <img src="{{ asset('images/events/marketech/1-whats-next-in-marketing.png') }}" alt="What's NEXT in Marketing" class="slide-brand-img">
+                                    <img src="{{ asset('images/events/marketech/1-whats-next-in-marketing.png') }}" alt="What's NEXT in Marketing" class="slide-brand-img" onerror="this.onerror=null; this.closest('.slide-brand-frame').style.display='none';">
                                 </div>
                                 <div class="slide-meta-row">
                                     <span class="slide-badge badge-conf">Conference Series</span>
@@ -3044,7 +3045,7 @@
                         <div class="marketech-slide">
                             <a href="https://marketech-apac.com/featured-events/" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; flex-grow: 1;">
                                 <div class="slide-brand-frame">
-                                    <img src="{{ asset('images/events/marketech/2-retail-ecommerce-innovation.png') }}" alt="Retail & E-Commerce Innovation Series" class="slide-brand-img">
+                                    <img src="{{ asset('images/events/marketech/2-retail-ecommerce-innovation.png') }}" alt="Retail & E-Commerce Innovation Series" class="slide-brand-img" onerror="this.onerror=null; this.closest('.slide-brand-frame').style.display='none';">
                                 </div>
                                 <div class="slide-meta-row">
                                     <span class="slide-badge badge-conf">Marketing & Tech Series</span>
@@ -3065,7 +3066,7 @@
                         <div class="marketech-slide">
                             <a href="https://marketech-apac.com/featured-events/" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; flex-grow: 1;">
                                 <div class="slide-brand-frame">
-                                    <img src="{{ asset('images/events/marketech/3-digital-experience-asia.png') }}" alt="Digital Experience Asia" class="slide-brand-img">
+                                    <img src="{{ asset('images/events/marketech/3-digital-experience-asia.png') }}" alt="Digital Experience Asia" class="slide-brand-img" onerror="this.onerror=null; this.closest('.slide-brand-frame').style.display='none';">
                                 </div>
                                 <div class="slide-meta-row">
                                     <span class="slide-badge badge-conf">Conference Series</span>
@@ -3086,7 +3087,7 @@
                         <div class="marketech-slide">
                             <a href="https://marketech-apac.com/featured-events/" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; flex-grow: 1;">
                                 <div class="slide-brand-frame">
-                                    <img src="{{ asset('images/events/marketech/4-advertising-summit-asia.png') }}" alt="Advertising Summit Asia" class="slide-brand-img">
+                                    <img src="{{ asset('images/events/marketech/4-advertising-summit-asia.png') }}" alt="Advertising Summit Asia" class="slide-brand-img" onerror="this.onerror=null; this.closest('.slide-brand-frame').style.display='none';">
                                 </div>
                                 <div class="slide-meta-row">
                                     <span class="slide-badge badge-conf">Executive Summit</span>
@@ -3107,7 +3108,7 @@
                         <div class="marketech-slide">
                             <a href="https://marketech-apac.com/featured-events/" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; flex-grow: 1;">
                                 <div class="slide-brand-frame">
-                                    <img src="{{ asset('images/events/marketech/5-next-awards.png') }}" alt="NEXT Awards" class="slide-brand-img">
+                                    <img src="{{ asset('images/events/marketech/5-next-awards.png') }}" alt="NEXT Awards" class="slide-brand-img" onerror="this.onerror=null; this.closest('.slide-brand-frame').style.display='none';">
                                 </div>
                                 <div class="slide-meta-row">
                                     <span class="slide-badge badge-award">Awards Program</span>
@@ -3128,7 +3129,7 @@
                         <div class="marketech-slide">
                             <a href="https://marketech-apac.com/featured-events/" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; flex-grow: 1;">
                                 <div class="slide-brand-frame">
-                                    <img src="{{ asset('images/events/marketech/6-empowered-women-awards.png') }}" alt="Empowered Women Awards" class="slide-brand-img">
+                                    <img src="{{ asset('images/events/marketech/6-empowered-women-awards.png') }}" alt="Empowered Women Awards" class="slide-brand-img" onerror="this.onerror=null; this.closest('.slide-brand-frame').style.display='none';">
                                 </div>
                                 <div class="slide-meta-row">
                                     <span class="slide-badge badge-award">Awards Program</span>
@@ -3149,7 +3150,7 @@
                         <div class="marketech-slide">
                             <a href="https://marketech-apac.com/featured-events/" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; flex-grow: 1;">
                                 <div class="slide-brand-frame">
-                                    <img src="{{ asset('images/events/marketech/7-marketing-technology-awards.png') }}" alt="Marketing Technology Awards 2026" class="slide-brand-img">
+                                    <img src="{{ asset('images/events/marketech/7-marketing-technology-awards.png') }}" alt="Marketing Technology Awards 2026" class="slide-brand-img" onerror="this.onerror=null; this.closest('.slide-brand-frame').style.display='none';">
                                 </div>
                                 <div class="slide-meta-row">
                                     <span class="slide-badge badge-award">Awards Program</span>
@@ -3170,7 +3171,7 @@
                         <div class="marketech-slide">
                             <a href="https://marketech-apac.com/featured-events/" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; flex-grow: 1;">
                                 <div class="slide-brand-frame">
-                                    <img src="{{ asset('images/events/marketech/8-advertising-awards-asia-pacific.png') }}" alt="Advertising Awards Asia Pacific 2026" class="slide-brand-img">
+                                    <img src="{{ asset('images/events/marketech/8-advertising-awards-asia-pacific.png') }}" alt="Advertising Awards Asia Pacific 2026" class="slide-brand-img" onerror="this.onerror=null; this.closest('.slide-brand-frame').style.display='none';">
                                 </div>
                                 <div class="slide-meta-row">
                                     <span class="slide-badge badge-award">Awards Program</span>
@@ -3191,7 +3192,7 @@
                         <div class="marketech-slide">
                             <a href="https://marketech-apac.com/featured-events/" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; flex-grow: 1;">
                                 <div class="slide-brand-frame">
-                                    <img src="{{ asset('images/events/marketech/9-content-marketing-awards.png') }}" alt="Content Marketing Awards Asia Pacific 2026" class="slide-brand-img">
+                                    <img src="{{ asset('images/events/marketech/9-content-marketing-awards.png') }}" alt="Content Marketing Awards Asia Pacific 2026" class="slide-brand-img" onerror="this.onerror=null; this.closest('.slide-brand-frame').style.display='none';">
                                 </div>
                                 <div class="slide-meta-row">
                                     <span class="slide-badge badge-award">Awards Program</span>
@@ -3212,7 +3213,7 @@
                         <div class="marketech-slide">
                             <a href="https://marketech-apac.com/featured-events/" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; flex-grow: 1;">
                                 <div class="slide-brand-frame">
-                                    <img src="{{ asset('images/events/marketech/10-retail-ecommerce-excellence-awards.png') }}" alt="Retail & E-Commerce Excellence Awards Asia Pacific 2026" class="slide-brand-img">
+                                    <img src="{{ asset('images/events/marketech/10-retail-ecommerce-excellence-awards.png') }}" alt="Retail & E-Commerce Excellence Awards Asia Pacific 2026" class="slide-brand-img" onerror="this.onerror=null; this.closest('.slide-brand-frame').style.display='none';">
                                 </div>
                                 <div class="slide-meta-row">
                                     <span class="slide-badge badge-award">Awards Program</span>
@@ -3251,7 +3252,7 @@
             <!-- Article 1 -->
             <div class="speaker-card" id="speaker-card-0">
                 <div class="speaker-photo-wrap">
-                    <img class="speaker-photo" id="speaker-img-0" src="https://hrforwardasia.com/wp-content/uploads/2026/09/Kirk-AirAsia.webp" alt="Leader Feature Image" />
+                    <img class="speaker-photo" onerror="this.onerror=null; this.style.display='none';" id="speaker-img-0" src="https://hrforwardasia.com/wp-content/uploads/2026/09/Kirk-AirAsia.webp" alt="Leader Feature Image" />
                     <span class="speaker-industry-tag">HR Forward &bull; Leadership</span>
                 </div>
                 <div class="speaker-body">
@@ -3270,7 +3271,7 @@
             <!-- Article 2 -->
             <div class="speaker-card" id="speaker-card-1">
                 <div class="speaker-photo-wrap">
-                    <img class="speaker-photo" id="speaker-img-1" src="https://hrforwardasia.com/wp-content/uploads/2026/09/Article-launch.webp" alt="Leader Feature Image" />
+                    <img class="speaker-photo" onerror="this.onerror=null; this.style.display='none';" id="speaker-img-1" src="https://hrforwardasia.com/wp-content/uploads/2026/09/Article-launch.webp" alt="Leader Feature Image" />
                     <span class="speaker-industry-tag">HR Forward &bull; Leadership</span>
                 </div>
                 <div class="speaker-body">
@@ -3289,7 +3290,7 @@
             <!-- Article 3 -->
             <div class="speaker-card" id="speaker-card-2">
                 <div class="speaker-photo-wrap">
-                    <img class="speaker-photo" id="speaker-img-2" src="https://hrforwardasia.com/wp-content/uploads/2026/09/MakerLabs-Reema.webp" alt="Leader Feature Image" />
+                    <img class="speaker-photo" onerror="this.onerror=null; this.style.display='none';" id="speaker-img-2" src="https://hrforwardasia.com/wp-content/uploads/2026/09/MakerLabs-Reema.webp" alt="Leader Feature Image" />
                     <span class="speaker-industry-tag">HR Forward &bull; Leadership</span>
                 </div>
                 <div class="speaker-body">
@@ -3308,7 +3309,7 @@
             <!-- Article 4 -->
             <div class="speaker-card" id="speaker-card-3">
                 <div class="speaker-photo-wrap">
-                    <img class="speaker-photo" id="speaker-img-3" src="https://hrforwardasia.com/wp-content/uploads/2026/09/Jeremy-John-Pintor-joins-East-West-Banking-Corporation-as-HR-business-partner.webp" alt="Leader Feature Image" />
+                    <img class="speaker-photo" onerror="this.onerror=null; this.style.display='none';" id="speaker-img-3" src="https://hrforwardasia.com/wp-content/uploads/2026/09/Jeremy-John-Pintor-joins-East-West-Banking-Corporation-as-HR-business-partner.webp" alt="Leader Feature Image" />
                     <span class="speaker-industry-tag">HR Forward &bull; Leadership</span>
                 </div>
                 <div class="speaker-body">
@@ -3327,7 +3328,7 @@
             <!-- Article 5 -->
             <div class="speaker-card" id="speaker-card-4">
                 <div class="speaker-photo-wrap">
-                    <img class="speaker-photo" id="speaker-img-4" src="https://hrforwardasia.com/wp-content/uploads/2026/09/Shannon-O.-returns-to-facilities-management-as-ENGIE-Southeast-Asia-HRBP-director.webp" alt="Leader Feature Image" />
+                    <img class="speaker-photo" onerror="this.onerror=null; this.style.display='none';" id="speaker-img-4" src="https://hrforwardasia.com/wp-content/uploads/2026/09/Shannon-O.-returns-to-facilities-management-as-ENGIE-Southeast-Asia-HRBP-director.webp" alt="Leader Feature Image" />
                     <span class="speaker-industry-tag">HR Forward &bull; Leadership</span>
                 </div>
                 <div class="speaker-body">
@@ -3365,7 +3366,7 @@
             <!-- ============================================== -->
             <div class="insight-card" data-branch="marketech" id="marketech-card">
                 <div class="insight-thumb it-orange" id="marketech-thumb">
-                    <img id="marketech-post-img" src="https://marketech-apac.com/wp-content/uploads/2026/09/Rakuten-opens-Hangzhou-subsidiary-to-deepen-support-for-Chinese-cross-border-merchants-.webp" alt="Featured Image" style="width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; z-index:0; transition: transform 0.4s ease;" />
+                    <img id="marketech-post-img" src="https://marketech-apac.com/wp-content/uploads/2026/09/Rakuten-opens-Hangzhou-subsidiary-to-deepen-support-for-Chinese-cross-border-merchants-.webp" alt="Featured Image" style="width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; z-index:0; transition: transform 0.4s ease;" onerror="this.onerror=null; this.style.display='none';" />
                     <span class="insight-type-badge" style="z-index: 1;">MARKETECH APAC &bull; Latest</span>
                 </div>
                 <div class="insight-body">
@@ -3395,7 +3396,7 @@
             <!-- ============================================== -->
             <div class="insight-card" data-branch="uptech" id="uptech-card">
                 <div class="insight-thumb it-blue" id="uptech-thumb">
-                    <img id="uptech-post-img" src="https://uptech-media.com/wp-content/uploads/2026/09/Philippines-expands-eGovPH-super-app-with-new-AI-capabilities-.webp" alt="Featured Image" style="width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; z-index:0; transition: transform 0.4s ease;" />
+                    <img id="uptech-post-img" src="https://uptech-media.com/wp-content/uploads/2026/09/Philippines-expands-eGovPH-super-app-with-new-AI-capabilities-.webp" alt="Featured Image" style="width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; z-index:0; transition: transform 0.4s ease;" onerror="this.onerror=null; this.style.display='none';" />
                     <span class="insight-type-badge" style="z-index: 1;">UpTech Media &bull; Latest</span>
                 </div>
                 <div class="insight-body">
@@ -3425,7 +3426,7 @@
             <!-- ============================================== -->
             <div class="insight-card" data-branch="hrforward" id="hrforward-card">
                 <div class="insight-thumb it-green" id="hrforward-thumb">
-                    <img id="hrforward-post-img" src="https://hrforwardasia.com/wp-content/uploads/2026/09/AI-fast-tracks-Gen-Zs-path-to-leadership-report-finds.webp" alt="Featured Image" style="width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; z-index:0; transition: transform 0.4s ease;" />
+                    <img id="hrforward-post-img" src="https://hrforwardasia.com/wp-content/uploads/2026/09/AI-fast-tracks-Gen-Zs-path-to-leadership-report-finds.webp" alt="Featured Image" style="width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; z-index:0; transition: transform 0.4s ease;" onerror="this.onerror=null; this.style.display='none';" />
                     <span class="insight-type-badge" style="z-index: 1;">HR Forward &bull; Latest</span>
                 </div>
                 <div class="insight-body">
@@ -3648,7 +3649,7 @@
             <!-- Brand Column -->
             <div class="footer-brand-col">
                 <a href="#hero" class="footer-logo-link" aria-label="WECON Home">
-                    <img src="{{ asset('images/WECON ASIA (2LINE)_Horizontal_Coloured.png') }}?v={{ file_exists(public_path('images/WECON ASIA (2LINE)_Horizontal_Coloured.png')) ? filemtime(public_path('images/WECON ASIA (2LINE)_Horizontal_Coloured.png')) : 1 }}" alt="WECON ASIA" class="footer-logo-img">
+                    <img src="{{ asset('images/WECON ASIA (2LINE)_Horizontal_Coloured.png') }}?v={{ file_exists(public_path('images/WECON ASIA (2LINE)_Horizontal_Coloured.png')) ? filemtime(public_path('images/WECON ASIA (2LINE)_Horizontal_Coloured.png')) : 1 }}" alt="WECON ASIA" class="footer-logo-img" onerror="this.style.display='none';">
                 </a>
                 <p>
                     Wecon Asia Media Group, Inc. is an Asia-Pacific media, events, and business information ecosystem connecting leaders, ideas, and transformative opportunities.

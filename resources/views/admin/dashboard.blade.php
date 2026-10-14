@@ -423,7 +423,7 @@
     <!-- TOP HEADER -->
     <header class="admin-header">
         <div class="header-brand">
-            <img src="{{ asset('images/WECON ASIA (2LINE)_Horizontal_Coloured.png') }}" alt="WECON ASIA" onerror="this.style.display='none'">
+            <img src="{{ asset('images/logo1.png') }}" alt="WECON ASIA" onerror="this.style.display='none'">
             <span class="header-badge">Content Management Suite</span>
         </div>
         <div class="header-actions">

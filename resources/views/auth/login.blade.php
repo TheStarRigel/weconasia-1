@@ -289,7 +289,7 @@
     <div class="login-card" id="loginCard">
         <div class="brand-header">
             <a href="{{ url('/') }}">
-                <img src="{{ asset('images/WECON ASIA (2LINE)_Horizontal_Coloured.png') }}" alt="WECON ASIA" class="brand-logo" onerror="this.style.display='none'">
+                <img src="{{ asset('images/logo1.png') }}" alt="WECON ASIA" class="brand-logo" onerror="this.style.display='none'">
             </a>
             <div>
                 <span class="brand-badge">&#x1F512; WECON Console</span>
