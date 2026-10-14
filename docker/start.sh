@@ -31,9 +31,10 @@ elif ! grep -q "^APP_KEY=base64:" .env 2>/dev/null; then
 fi
 
 # 5. Determine database connection
-if [ -n "$MYSQLHOST" ] || [ -n "$MYSQL_URL" ] || [ "$DB_CONNECTION" = "mysql" ]; then
+if [ -n "$MYSQLHOST" ] || [ -n "$MYSQL_URL" ]; then
     echo "Using MySQL database..."
     export DB_CONNECTION=mysql
+    sed -i "s|^DB_CONNECTION=.*|DB_CONNECTION=mysql|" .env 2>/dev/null || echo "DB_CONNECTION=mysql" >> .env
 
     # Wait up to 10s for MySQL if not immediately available
     for i in {1..10}; do
@@ -47,10 +48,20 @@ if [ -n "$MYSQLHOST" ] || [ -n "$MYSQL_URL" ] || [ "$DB_CONNECTION" = "mysql" ];
 else
     echo "Using SQLite database..."
     export DB_CONNECTION=sqlite
-    mkdir -p database
-    touch database/database.sqlite
-    chown www-data:www-data database/database.sqlite
-    chmod 664 database/database.sqlite
+    export DB_DATABASE=/var/www/html/database/database.sqlite
+
+    # Synchronize .env with sqlite and absolute database path
+    sed -i "s|^DB_CONNECTION=.*|DB_CONNECTION=sqlite|" .env 2>/dev/null || echo "DB_CONNECTION=sqlite" >> .env
+    sed -i "s|^DB_DATABASE=.*|DB_DATABASE=/var/www/html/database/database.sqlite|" .env 2>/dev/null || echo "DB_DATABASE=/var/www/html/database/database.sqlite" >> .env
+
+    # Clean any legacy stray sqlite files in project root
+    rm -f /var/www/html/wecon_asia /var/www/html/laravel 2>/dev/null || true
+
+    mkdir -p /var/www/html/database
+    touch /var/www/html/database/database.sqlite
+    chown -R www-data:www-data /var/www/html/database
+    chmod -R 775 /var/www/html/database
+    chmod 664 /var/www/html/database/database.sqlite
 fi
 
 # 6. Run database migrations and seed default content
@@ -63,9 +74,11 @@ php artisan config:cache || true
 php artisan route:cache || true
 php artisan view:cache || true
 
-# 8. Ensure permissions are set
-chown -R www-data:www-data storage bootstrap/cache database .env || true
-chmod -R 775 storage bootstrap/cache database || true
+# 8. Ensure permissions are strictly granted to www-data for web execution
+echo "Fixing file and directory permissions for www-data..."
+chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database /var/www/html/.env || true
+chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database || true
+chmod 664 /var/www/html/database/*.sqlite* 2>/dev/null || true
 
 # 9. Verify Apache syntax before launch
 echo "Verifying Apache configuration syntax..."
