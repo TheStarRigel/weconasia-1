@@ -56,13 +56,21 @@ else
     sed -i "s|^DB_DATABASE=.*|DB_DATABASE=/var/www/html/database/database.sqlite|" .env 2>/dev/null || echo "DB_DATABASE=/var/www/html/database/database.sqlite" >> .env
     sed -i "s|^SESSION_DRIVER=.*|SESSION_DRIVER=cookie|" .env 2>/dev/null || echo "SESSION_DRIVER=cookie" >> .env
 
-    # Clean any legacy stray sqlite files in project root
-    rm -f /var/www/html/wecon_asia /var/www/html/laravel /var/www/html/*.sqlite* 2>/dev/null || true
-
     mkdir -p /var/www/html/database
     touch /var/www/html/database/database.sqlite
+
+    # If a legacy root wecon_asia database exists with data, migrate its content
+    if [ -f /var/www/html/wecon_asia ] && [ ! -s /var/www/html/database/database.sqlite ]; then
+        cp /var/www/html/wecon_asia /var/www/html/database/database.sqlite 2>/dev/null || true
+    fi
+
+    # Symlink wecon_asia and laravel to database.sqlite as failsafe against external env overrides
+    rm -f /var/www/html/wecon_asia /var/www/html/laravel 2>/dev/null || true
+    ln -sf /var/www/html/database/database.sqlite /var/www/html/wecon_asia 2>/dev/null || true
+    ln -sf /var/www/html/database/database.sqlite /var/www/html/laravel 2>/dev/null || true
+
     chown -R www-data:www-data /var/www/html/database
-    chmod -R 777 /var/www/html/database
+    chmod 777 /var/www/html/database /var/www/html
     chmod 666 /var/www/html/database/database.sqlite
 fi
 
@@ -79,8 +87,9 @@ php artisan view:cache || true
 # 8. Ensure permissions are strictly granted to www-data for web execution
 echo "Fixing file and directory permissions for www-data..."
 chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database /var/www/html/.env || true
+chmod 777 /var/www/html || true
 chmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database || true
-chmod 666 /var/www/html/database/*.sqlite* 2>/dev/null || true
+chmod 666 /var/www/html/database/*.sqlite* /var/www/html/*.sqlite* /var/www/html/wecon_asia* 2>/dev/null || true
 
 # 9. Verify Apache syntax before launch
 echo "Verifying Apache configuration syntax..."
