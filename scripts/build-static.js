@@ -174,38 +174,127 @@ if (fs.existsSync(dashboardBladePath)) {
     }
 
     let dashHtml = fs.readFileSync(dashboardBladePath, 'utf8');
+
+    // 1. Clean basic blade directives
     dashHtml = dashHtml.replace(/@csrf/gi, '');
     dashHtml = dashHtml.replace(/@method\([^)]+\)/gi, '');
     dashHtml = dashHtml.replace(/<meta name="csrf-token" content="\{\{[^}]+\}\}">/gi, '<meta name="csrf-token" content="">');
     dashHtml = dashHtml.replace(/\{\{\s*Auth::user\(\)->name[^}]*\}\}/gi, 'WECON Administrator');
-    dashHtml = dashHtml.replace(/\{\{\s*route\('home'\)\s*\}\}/g, '/index.html');
+    dashHtml = dashHtml.replace(/\{\{\s*route\('home'\)\s*\}\}/g, 'index.html');
     dashHtml = dashHtml.replace(/\{\{\s*route\('logout'\)\s*\}\}/g, '/login');
     dashHtml = dashHtml.replace(/\{\{\s*count\(\$inquiries\)\s*\}\}/g, '0');
     dashHtml = dashHtml.replace(/\{\{\s*count\(\$subscribers\)\s*\}\}/g, '0');
     dashHtml = dashHtml.replace(/@if\s*\(\s*session\([^)]+\)\s*\)[\s\S]*?@endif/gi, '');
-    dashHtml = dashHtml.replace(/src="\{\{\s*asset\(['"]([^'"]+)['"]\)\s*\}\}"/g, 'src="/$1"');
+    dashHtml = dashHtml.replace(/src="\{\{\s*asset\(['"]([^'"]+)['"]\)\s*\}\}"/g, 'src="$1"');
 
-    // Clean inquiries and subscribers conditionals
-    dashHtml = dashHtml.replace(/@if\s*\(\s*\$inquiries->isEmpty\(\)\s*\)([\s\S]*?)@else[\s\S]*?@endif/i, '$1');
-    dashHtml = dashHtml.replace(/@if\s*\(\s*\$subscribers->isEmpty\(\)\s*\)([\s\S]*?)@else[\s\S]*?@endif/i, '$1');
+    // 2. Clean inquiries panel
+    dashHtml = dashHtml.replace(/<div class="section-panel" id="tab-inquiries">[\s\S]*?<!-- ============================================== -->\s*<!-- SUBSCRIBERS INBOX -->/i, `
+            <div class="section-panel" id="tab-inquiries">
+                <div class="panel-header">
+                    <div>
+                        <h2 class="panel-title">Contact Inquiries Inbox</h2>
+                        <p class="panel-desc">Direct inquiries submitted by corporate partners, attendees, and organizations.</p>
+                    </div>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.9rem; padding: 2rem 0; text-align: center;">No contact inquiries recorded yet.</p>
+            </div>
 
-    // Replace loops with empty or fallback
-    dashHtml = dashHtml.replace(/@foreach\s*\(\s*\(\$sections\['section_2_about'\]\['branches'\]\s*\?\?\s*\[\]\)\s+as\s+\$i\s*=>\s*\$branch\s*\)[\s\S]*?@endforeach/i, '');
-    dashHtml = dashHtml.replace(/@foreach\s*\(\s*\(\$sections\['section_3_why'\]\['pillars'\]\s*\?\?\s*\[\]\)\s+as\s+\$i\s*=>\s*\$pillar\s*\)[\s\S]*?@endforeach/i, '');
-    dashHtml = dashHtml.replace(/@php[\s\S]*?\$jobs\s*=[\s\S]*?@endphp\s*@foreach\s*\(\s*\$jobs\s+as\s+\$idx\s*=>\s*\$job\s*\)[\s\S]*?@endforeach/i, '');
+            <!-- ============================================== -->
+            <!-- SUBSCRIBERS INBOX -->`);
 
-    // Replace section values
+    // 3. Clean subscribers panel
+    dashHtml = dashHtml.replace(/<div class="section-panel" id="tab-subscribers">[\s\S]*?<\/main>/i, `
+            <div class="section-panel" id="tab-subscribers">
+                <div class="panel-header">
+                    <div>
+                        <h2 class="panel-title">Newsletter Subscribers</h2>
+                        <p class="panel-desc">All subscribers registered through Section 7 "Stay Connected".</p>
+                    </div>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.9rem; padding: 2rem 0; text-align: center;">No newsletter subscribers recorded yet.</p>
+            </div>
+        </main>`);
+
+    // 4. Fix tab-switching script (remove blade @if conditionals that caused syntax error)
+    dashHtml = dashHtml.replace(/\/\/ Check if tab query param or hash exists on load[\s\S]*?@endif/i, `
+        // Check if hash exists on load
+        if (window.location.hash) {
+            const hash = window.location.hash.substring(1);
+            if (document.getElementById(hash)) {
+                switchTab(hash);
+            }
+        }
+    `);
+
+    // 5. Populate default values for common inputs instead of leaving them empty
+    const defaults = {
+        section_1_hero: {
+            tag: "Asia-Pacific Media & Business Ecosystem",
+            title: "Connecting Ideas, <span class=\"highlight\">People</span>, and Opportunities",
+            description: "WECON brings together industry leaders, organizations, professionals, and communities through events, awards, media, and meaningful business experiences.",
+            primary_cta_text: "See Articles",
+            primary_cta_link: "#insights",
+            secondary_cta_text: "View Upcoming Events",
+            secondary_cta_link: "#events",
+            hero_image: "images/hero-visual.png"
+        },
+        section_2_about: {
+            tag: "Who We Are",
+            title: "More Than Media.<br><span class=\"accent-red\">A Connected Business Ecosystem.</span>",
+            description: "WECON Asia Media Group, Inc. is a forward-thinking business media, events, and industry intelligence ecosystem that connects enterprise leaders, innovators, and professionals across Asia."
+        },
+        section_3_why: {
+            tag: "Value Proposition",
+            title: "Why Engage with WECON?",
+            description: "Four strategic pillars that empower professionals, brands, and organizations to achieve enduring business impact."
+        },
+        section_4_events: {
+            tag: "Industry Gatherings & Benchmarks",
+            title: "Upcoming Events & Recognition Platforms",
+            description: "Discover high-impact regional summits, industry conferences, and prestigious benchmarks hosted across Asia-Pacific."
+        },
+        section_5_speakers: {
+            tag: "HR Forward Asia",
+            title: "Features & Leadership",
+            description: "In-depth executive interviews, workforce perspectives, and leadership features examining how organisations navigate change and the future of work across Asia."
+        },
+        section_6_insights: {
+            tag: "Media Intelligence Network",
+            title: "Voices, Insights, and Industry Intelligence",
+            description: "Stay ahead with verified reporting, executive perspectives, and strategic market intelligence from across the APAC business landscape."
+        },
+        section_7_newsletter: {
+            tag: "Stay Connected",
+            title: "Join Asia's Premier Business Information Network",
+            description: "Get the latest event invitations, executive insights, award nomination dates, and market reports delivered to your inbox weekly."
+        },
+        section_9_contact: {
+            cta_title: "Be Part of the Next WECON Experience",
+            cta_desc: "Discover unprecedented opportunities to connect with industry leaders, participate in premier events, collaborate across borders, and grow within the WECON ecosystem.",
+            cta_button_text: "Contact Our Team"
+        }
+    };
+
+    dashHtml = dashHtml.replace(/\{\{\s*\$sections\['(\w+)'\]\['(\w+)'\]\s*\?\?\s*''\s*\}\}/g, (match, sec, key) => {
+        return defaults[sec]?.[key] || '';
+    });
+
+    // 6. Clean any remaining blade template tags and empty fallbacks
     dashHtml = dashHtml.replace(/value="\{\{\s*\$sections\[['"][^'"]+['"]\]\[['"][^'"]+['"]\]\s*\?\?\s*(['"])([\s\S]*?)\1\s*\}\}"/g, 'value="$2"');
+    dashHtml = dashHtml.replace(/>\{\{\s*\$sections\[['"][^'"]+['"]\]\[['"][^'"]+['"]\]\s*\?\?\s*(['"])([\s\S]*?)\1\s*\}\}</g, '>$2<');
     dashHtml = dashHtml.replace(/\{\{\s*\$sections\[['"][^'"]+['"]\]\[['"][^'"]+['"]\]\s*\?\?\s*(['"])([\s\S]*?)\1\s*\}\}/g, '$2');
     dashHtml = dashHtml.replace(/value="\{\{[^}]+\}\}"/g, 'value=""');
     dashHtml = dashHtml.replace(/\{\{[^}]+\}\}/g, '');
 
-    // Clean remaining @ directives
+    // 7. Clean loops and any remaining @ directives
+    dashHtml = dashHtml.replace(/@php[\s\S]*?@endphp/gi, '');
+    dashHtml = dashHtml.replace(/@foreach[\s\S]*?@endforeach/gi, '');
     dashHtml = dashHtml.replace(/@if\s*\([^)]+\)/gi, '');
     dashHtml = dashHtml.replace(/@elseif\s*\([^)]+\)/gi, '');
     dashHtml = dashHtml.replace(/@else/gi, '');
     dashHtml = dashHtml.replace(/@endif/gi, '');
 
+    // 8. Add static preview script for saving sections
     const staticScript = `
     <script>
         document.querySelectorAll('form').forEach(form => {
