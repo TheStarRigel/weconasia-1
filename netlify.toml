@@ -2,26 +2,64 @@
   command = "npm run build"
   publish = "dist"
 
+# Brand Pages Routing
 [[redirects]]
-  from = "/login"
-  to = "/login.html"
+  from = "/marketech-apac"
+  to = "/marketech-apac.html"
   status = 200
 
 [[redirects]]
-  from = "/admin/login"
-  to = "/login.html"
+  from = "/uptech-media"
+  to = "/uptech-media.html"
   status = 200
 
 [[redirects]]
-  from = "/admin/dashboard"
-  to = "/admin/dashboard.html"
+  from = "/hr-forward-asia"
+  to = "/hr-forward-asia.html"
   status = 200
 
 [[redirects]]
-  from = "/admin"
-  to = "/admin/dashboard.html"
+  from = "/brands"
+  to = "/brands.html"
   status = 200
 
+# Legacy & Alias Routes
+[[redirects]]
+  from = "/brands.marketech"
+  to = "/marketech-apac.html"
+  status = 200
+
+[[redirects]]
+  from = "/brands.uptech"
+  to = "/uptech-media.html"
+  status = 200
+
+[[redirects]]
+  from = "/brands.hrforward"
+  to = "/hr-forward-asia.html"
+  status = 200
+
+[[redirects]]
+  from = "/brands.index"
+  to = "/brands.html"
+  status = 200
+
+[[redirects]]
+  from = "/brands/marketech-apac"
+  to = "/marketech-apac.html"
+  status = 200
+
+[[redirects]]
+  from = "/brands/uptech-media"
+  to = "/uptech-media.html"
+  status = 200
+
+[[redirects]]
+  from = "/brands/hr-forward-asia"
+  to = "/hr-forward-asia.html"
+  status = 200
+
+# Fallback for SPA/Home
 [[redirects]]
   from = "/*"
   to = "/index.html"
