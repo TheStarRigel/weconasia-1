@@ -155,11 +155,11 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 0.55rem;
-            padding: 0.8rem 1.85rem;
+            gap: 0.45rem;
+            padding: 0.62rem 1.45rem;
             border-radius: 9999px;
             font-weight: 600;
-            font-size: 0.92rem;
+            font-size: 0.86rem;
             text-decoration: none;
             cursor: pointer;
             border: 1.5px solid transparent;
@@ -354,12 +354,12 @@
         .nav-cta-btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.45rem;
-            padding: 0.54rem 1.45rem;
+            gap: 0.4rem;
+            padding: 0.44rem 1.25rem;
             border-radius: 9999px;
             border: 1.5px solid var(--navy);
             color: var(--navy);
-            font-size: 0.88rem;
+            font-size: 0.82rem;
             font-weight: 700;
             text-decoration: none;
             transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1948,88 +1948,221 @@
             gap: 0.35rem;
         }
 
-        /* ===== SECTION 11: USER JOURNEY ("WHAT BRINGS YOU TO WECON?") ===== */
+        /* ===== SECTION 11: TESTIMONIALS & INTEREST IDENTIFICATION ("WHAT BRINGS YOU TO WECON?") ===== */
         #journey {
             background: var(--section-alt);
             position: relative;
         }
-        .journey-grid {
+        .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 1.75rem;
+            margin-bottom: 2.75rem;
         }
-        .journey-card {
+        .testimonial-card {
             background: #FFFFFF;
-            border: 1.5px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem 1.85rem;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 2.25rem 2rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            text-decoration: none;
-            cursor: pointer;
+            position: relative;
             box-shadow: var(--shadow-sm);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
         }
-        .journey-card:hover {
-            transform: translateY(-6px);
-            border-color: var(--blue);
+        .testimonial-card:hover {
+            transform: translateY(-4px);
             box-shadow: var(--shadow-md);
-            background: #FFFFFF;
+            border-color: var(--blue-border);
         }
-        .journey-header {
+        .testimonial-top {
+            margin-bottom: 1.25rem;
+        }
+        .testimonial-badge-wrap {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             justify-content: space-between;
             margin-bottom: 1.25rem;
         }
-        .journey-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            background: var(--blue-subtle);
+        .testimonial-quote-mark {
+            font-size: 2.5rem;
+            line-height: 1;
             color: var(--blue);
+            font-family: Georgia, serif;
+            opacity: 0.7;
+        }
+        .testimonial-badge {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--blue);
+            background: var(--blue-subtle);
+            padding: 0.35rem 0.75rem;
+            border-radius: 9999px;
+            letter-spacing: 0.02em;
+        }
+        .testimonial-text {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--navy);
+            font-style: italic;
+            font-weight: 500;
+        }
+        .testimonial-author {
+            margin-top: 1.75rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--border-light, #F1F5F9);
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+        .testimonial-role {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--navy);
+        }
+        .testimonial-org {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        /* Section 11 Centered Action Button */
+        .journey-actions {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+
+        /* Interest Modal Form Styling */
+        #modal-interest .modal-container {
+            max-width: 640px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2.25rem 2.25rem 2rem;
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
+        }
+        #modal-interest .modal-container::-webkit-scrollbar {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+        }
+        .interest-modal-fields {
+            display: flex;
+            flex-direction: column;
+            gap: 1.15rem;
+        }
+        .interest-modal-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .interest-modal-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        .interest-modal-group label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--navy);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .interest-modal-group label .req {
+            color: var(--red, #EF4444);
+            margin-left: 2px;
+        }
+        .interest-modal-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            color: var(--navy);
+            background: #F8FAFC;
+            transition: all 0.2s ease;
+        }
+        .interest-modal-input:focus {
+            outline: none;
+            border-color: var(--blue);
+            background: #FFFFFF;
+            box-shadow: 0 0 0 3px rgba(18, 97, 181, 0.12);
+        }
+        .interest-modal-checkgrid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.65rem 1rem;
+            background: #F8FAFC;
+            padding: 1rem 1.15rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        .interest-modal-checkitem {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            font-size: 0.88rem;
+            color: var(--navy);
+            cursor: pointer;
+            user-select: none;
+            text-transform: none !important;
+            font-weight: 500 !important;
+            letter-spacing: normal !important;
+        }
+        .interest-modal-checkitem input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--blue);
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .interest-modal-submit-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 0.55rem;
+            margin-top: 0.25rem;
+        }
+        .interest-btn-disabled {
+            width: 100%;
+            padding: 0.95rem 1.5rem;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            font-family: inherit;
+            border: 1.5px solid #CBD5E1;
+            background: #E2E8F0;
+            color: #64748B;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            cursor: not-allowed !important;
+            pointer-events: none !important;
+            opacity: 0.75;
+            user-select: none;
+            box-shadow: none;
+        }
+        .interest-form-notice {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-align: center;
+            font-style: italic;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
+            gap: 0.35rem;
         }
-        .journey-target-badge {
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--navy);
-            background: var(--section-alt);
-            padding: 0.3rem 0.7rem;
-            border-radius: 9999px;
-            border: 1px solid var(--border);
-        }
-        .journey-question {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--navy);
-            line-height: 1.35;
-            margin-bottom: 0.65rem;
-        }
-        .journey-answer {
-            font-size: 0.9rem;
-            color: var(--text-body);
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-        .journey-link-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.45rem;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--blue);
-            transition: gap 0.2s ease;
-        }
-        .journey-card:hover .journey-link-label {
-            color: var(--navy);
-            gap: 0.65rem;
+
+        @media (max-width: 600px) {
+            .interest-modal-row {
+                grid-template-columns: 1fr;
+            }
+            .interest-modal-checkgrid {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* ===== SECTION 12: NEWSLETTER & COMMUNITY (STAY CONNECTED) ===== */
@@ -3127,118 +3260,78 @@
         </div>
     </div>
 </section>
-<!-- ===== SECTION 11: USER JOURNEY ("WHAT BRINGS YOU TO WECON?") ===== -->
+<!-- ===== SECTION 11: LET'S STAY CONNECTED ===== -->
 <section id="journey" class="section-padding">
     <div class="container">
+        <!-- Section Header -->
         <div class="section-header reveal">
-            <h2 class="section-title">What Brings You to WECON?</h2>
+            <h2 class="section-title">Let&rsquo;s Stay Connected</h2>
             <p class="section-desc">
-                Select your intended journey below to immediately access relevant programs, nomination portals, and executive resources.
+                Tell us about your organization&rsquo;s goals and interests. Whether you are seeking delegate passes, exploring award nominations, or seeking thought leadership partnerships, our team will connect you with the most relevant WECON initiatives.
             </p>
         </div>
 
-        <div class="journey-grid">
-            <!-- Option 1: Attend an Event -->
-            <a href="#events" class="journey-card reveal" style="transition-delay: 0.05s">
-                <div>
-                    <div class="journey-header">
-                        <div class="journey-icon">&#x1F3AB;</div>
-                        <span class="journey-target-badge">Summits & Forums</span>
+        <!-- 1. Conference Testimonials Grid -->
+        <!-- NOTE: Confirmed attendee testimonials can be dropped in here once finalized -->
+        <div class="testimonials-grid">
+            <!-- Testimonial 1 -->
+            <div class="testimonial-card reveal" style="transition-delay: 0.05s">
+                <div class="testimonial-top">
+                    <div class="testimonial-badge-wrap">
+                        <span class="testimonial-quote-mark">&ldquo;</span>
+                        <span class="testimonial-badge">HR Leaders Summit APAC</span>
                     </div>
-                    <h3 class="journey-question">"I want to attend an event"</h3>
-                    <p class="journey-answer">
-                        Browse our upcoming technology, marketing, and HR summits to secure passes and view speaker agendas.
+                    <p class="testimonial-text">
+                        &ldquo;WECON delivers one of the rare conference settings in the Asia-Pacific where candid, actionable case studies take priority over generic theory. The peer exchanges with enterprise HR executives directly informed our talent strategy.&rdquo;
                     </p>
                 </div>
-                <div class="journey-link-label">
-                    View Events Showcase <span class="cta-arrow">&rarr;</span>
-                </div>
-            </a>
-
-            <!-- Option 2: Nominate / Enter an Award -->
-            <div class="journey-card reveal open-nominate-modal" data-category="General Entry" style="transition-delay: 0.1s">
-                <div>
-                    <div class="journey-header">
-                        <div class="journey-icon" style="background: var(--gold-soft); color: #B45309;">&#x1F3C6;</div>
-                        <span class="journey-target-badge">Awards & Honors</span>
-                    </div>
-                    <h3 class="journey-question">"I want to enter an award"</h3>
-                    <p class="journey-answer">
-                        Submit nominations for your organization or team to receive Asia-Pacific industry recognition.
-                    </p>
-                </div>
-                <div class="journey-link-label">
-                    Open Nomination Form <span class="cta-arrow">&rarr;</span>
+                <div class="testimonial-author">
+                    <span class="testimonial-role">Chief People Officer</span>
+                    <span class="testimonial-org">Regional Financial & Banking Group</span>
                 </div>
             </div>
 
-            <!-- Option 3: Become a Speaker -->
-            <div class="journey-card reveal open-speaker-modal" style="transition-delay: 0.15s">
-                <div>
-                    <div class="journey-header">
-                        <div class="journey-icon" style="background: #E0E7FF; color: #4338CA;">&#x1F3A4;</div>
-                        <span class="journey-target-badge">Thought Leadership</span>
+            <!-- Testimonial 2 -->
+            <div class="testimonial-card reveal" style="transition-delay: 0.12s">
+                <div class="testimonial-top">
+                    <div class="testimonial-badge-wrap">
+                        <span class="testimonial-quote-mark">&ldquo;</span>
+                        <span class="testimonial-badge">Digital Transformation Forum</span>
                     </div>
-                    <h3 class="journey-question">"I want to become a speaker"</h3>
-                    <p class="journey-answer">
-                        Share your expertise on stage at upcoming WECON summits before senior enterprise audiences.
+                    <p class="testimonial-text">
+                        &ldquo;The strategic caliber of speakers and attendees at WECON is outstanding. We walked away with high-value commercial partnerships and a clearer view of AI adoption and enterprise governance across Southeast Asia.&rdquo;
                     </p>
                 </div>
-                <div class="journey-link-label">
-                    Submit Speaker Proposal <span class="cta-arrow">&rarr;</span>
+                <div class="testimonial-author">
+                    <span class="testimonial-role">VP of Technology & Digital Innovation</span>
+                    <span class="testimonial-org">Enterprise Cloud Solutions Provider</span>
                 </div>
             </div>
 
-            <!-- Option 4: Partner / Sponsor -->
-            <div class="journey-card reveal open-partner-modal" data-subject="General Corporate Partnership" style="transition-delay: 0.2s">
-                <div>
-                    <div class="journey-header">
-                        <div class="journey-icon" style="background: #DCFCE7; color: #15803D;">&#x1F91D;</div>
-                        <span class="journey-target-badge">Commercial Alliances</span>
+            <!-- Testimonial 3 -->
+            <div class="testimonial-card reveal" style="transition-delay: 0.19s">
+                <div class="testimonial-top">
+                    <div class="testimonial-badge-wrap">
+                        <span class="testimonial-quote-mark">&ldquo;</span>
+                        <span class="testimonial-badge">MarTech Asia Conference</span>
                     </div>
-                    <h3 class="journey-question">"I want to partner with WECON"</h3>
-                    <p class="journey-answer">
-                        Explore bespoke sponsorship, branded thought leadership, event staging, and media integration packages.
+                    <p class="testimonial-text">
+                        &ldquo;An exceptional gathering of brand leaders, innovators, and decision-makers. WECON’s forums provide a truly unified regional perspective that has proven indispensable for our cross-border expansion.&rdquo;
                     </p>
                 </div>
-                <div class="journey-link-label">
-                    Request Partner Pack <span class="cta-arrow">&rarr;</span>
+                <div class="testimonial-author">
+                    <span class="testimonial-role">Regional Marketing & Growth Director</span>
+                    <span class="testimonial-org">Consumer Brands Alliance APAC</span>
                 </div>
             </div>
+        </div>
 
-            <!-- Option 5: Explore Industry Insights -->
-            <a href="#insights" class="journey-card reveal" style="transition-delay: 0.25s">
-                <div>
-                    <div class="journey-header">
-                        <div class="journey-icon" style="background: #F3E8FF; color: #7E22CE;">&#x1F4D6;</div>
-                        <span class="journey-target-badge">Intelligence</span>
-                    </div>
-                    <h3 class="journey-question">"I want to explore insights"</h3>
-                    <p class="journey-answer">
-                        Read deep-dive articles, watch keynote recordings, and download proprietary sector benchmarking reports.
-                    </p>
-                </div>
-                <div class="journey-link-label">
-                    Go to Insights Hub <span class="cta-arrow">&rarr;</span>
-                </div>
-            </a>
-
-            <!-- Option 6: Join the Team (Careers) -->
-            <div class="journey-card reveal open-careers-modal" style="transition-delay: 0.3s">
-                <div>
-                    <div class="journey-header">
-                        <div class="journey-icon" style="background: #FEE2E2; color: var(--red);">&#x1F4BC;</div>
-                        <span class="journey-target-badge">Talent & Culture</span>
-                    </div>
-                    <h3 class="journey-question">"I want to join the WECON team"</h3>
-                    <p class="journey-answer">
-                        Discover open career opportunities across journalism, event production, partnership sales, and technology.
-                    </p>
-                </div>
-                <div class="journey-link-label">
-                    View Career Openings <span class="cta-arrow">&rarr;</span>
-                </div>
-            </div>
+        <!-- Centered Action Button -->
+        <div class="journey-actions reveal" style="transition-delay: 0.25s">
+            <button type="button" class="btn btn-primary open-interest-modal" id="open-interest-btn" style="padding: 0.68rem 1.85rem; font-size: 0.88rem; box-shadow: var(--shadow-md); border-radius: 9999px;">
+                <span>Express Your Interest</span>
+                <span class="cta-arrow">&rarr;</span>
+            </button>
         </div>
     </div>
 </section>
@@ -3762,6 +3855,92 @@
     </div>
 </div>
 
+<!-- 6. Interest Identification Modal ("Let's Stay Connected") -->
+<div class="modal-overlay" id="modal-interest" role="dialog" aria-modal="true" aria-labelledby="modal-interest-title">
+    <div class="modal-container">
+        <button class="modal-close-btn" aria-label="Close modal">&times;</button>
+        <div style="margin-bottom: 1.25rem;">
+            <span class="section-tag" style="background: var(--blue-subtle); color: var(--blue); border-color: var(--blue-border); font-size: 0.72rem; padding: 0.25rem 0.65rem; margin-bottom: 0.5rem; display: inline-block;">Tailored Engagement</span>
+            <h3 class="modal-title" id="modal-interest-title" style="margin-bottom: 0.35rem;">Let&rsquo;s Stay Connected</h3>
+            <p class="modal-subtitle" style="margin-bottom: 0;">Tell us about your organization&rsquo;s focus and interests. We will connect you with relevant WECON initiatives.</p>
+        </div>
+
+        <form id="interest-modal-form" onsubmit="return false;" method="dialog" autocomplete="off" class="modal-form">
+            <div class="interest-modal-fields">
+                <div class="interest-modal-row">
+                    <div class="interest-modal-group">
+                        <label for="interest_modal_full_name">Full Name <span class="req">*</span></label>
+                        <input type="text" id="interest_modal_full_name" name="full_name" class="interest-modal-input" placeholder="e.g. Alexandra Chen" required>
+                    </div>
+                    <div class="interest-modal-group">
+                        <label for="interest_modal_work_email">Work Email <span class="req">*</span></label>
+                        <input type="email" id="interest_modal_work_email" name="work_email" class="interest-modal-input" placeholder="name@company.com" required>
+                    </div>
+                </div>
+
+                <div class="interest-modal-group">
+                    <label for="interest_modal_company">Company / Organization</label>
+                    <input type="text" id="interest_modal_company" name="company" class="interest-modal-input" placeholder="e.g. Acme APAC Holdings">
+                </div>
+
+                <div class="interest-modal-group">
+                    <label>Areas of Interest <span class="req">*</span></label>
+                    <div class="interest-modal-checkgrid">
+                        <label class="interest-modal-checkitem">
+                            <input type="checkbox" name="interests[]" value="conference_attendance">
+                            <span>Conference Attendance</span>
+                        </label>
+                        <label class="interest-modal-checkitem">
+                            <input type="checkbox" name="interests[]" value="awards_nominations">
+                            <span>Awards &amp; Nominations</span>
+                        </label>
+                        <label class="interest-modal-checkitem">
+                            <input type="checkbox" name="interests[]" value="speaking_opportunities">
+                            <span>Speaking Opportunities</span>
+                        </label>
+                        <label class="interest-modal-checkitem">
+                            <input type="checkbox" name="interests[]" value="sponsorship_partnerships">
+                            <span>Sponsorship &amp; Partnerships</span>
+                        </label>
+                        <label class="interest-modal-checkitem">
+                            <input type="checkbox" name="interests[]" value="editorial_submissions">
+                            <span>Editorial Submissions</span>
+                        </label>
+                        <label class="interest-modal-checkitem">
+                            <input type="checkbox" name="interests[]" value="content_collaboration">
+                            <span>Content Collaboration</span>
+                        </label>
+                        <label class="interest-modal-checkitem" style="grid-column: 1 / -1;">
+                            <input type="checkbox" name="interests[]" value="other_inquiries">
+                            <span>Other Inquiries</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="interest-modal-group">
+                    <label for="interest_modal_message">Message / Specific Goals</label>
+                    <textarea id="interest_modal_message" name="message" class="interest-modal-input" rows="3" placeholder="Tell us how we can assist you or what summits you are interested in..."></textarea>
+                </div>
+
+                <div class="interest-modal-submit-wrap">
+                    <!-- Temporary Submission Suspension: Button is intentionally not clickable / disabled per user instruction -->
+                    <button type="button" class="interest-btn-disabled" disabled aria-disabled="true" tabindex="-1" onclick="return false;">
+                        <span>Submit Inquiry</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                    <p class="interest-form-notice">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        Form submissions are temporarily paused. This button is currently not clickable.
+                    </p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 <!-- ===== CORE JAVASCRIPT LOGIC ===== -->
 <script>
     // 1. Scroll Progress Bar
@@ -4179,6 +4358,7 @@
     const modals = document.querySelectorAll('.modal-overlay');
     function closeModal() {
         modals.forEach(m => m.classList.remove('open'));
+        document.body.style.overflow = '';
     }
     document.querySelectorAll('.modal-close-btn').forEach(btn => btn.addEventListener('click', closeModal));
     modals.forEach(m => {
@@ -4197,6 +4377,7 @@
             const catInput = document.getElementById('nominate-category-input');
             if (catInput) catInput.value = cat;
             document.getElementById('modal-nominate').classList.add('open');
+            document.body.style.overflow = 'hidden';
         });
     });
 
@@ -4204,6 +4385,7 @@
     document.querySelectorAll('.open-speaker-modal').forEach(btn => {
         btn.addEventListener('click', () => {
             document.getElementById('modal-speaker').classList.add('open');
+            document.body.style.overflow = 'hidden';
         });
     });
 
@@ -4214,6 +4396,7 @@
             const subjInput = document.getElementById('partner-subject-input');
             if (subjInput) subjInput.value = subj;
             document.getElementById('modal-partner').classList.add('open');
+            document.body.style.overflow = 'hidden';
         });
     });
 
@@ -4228,6 +4411,7 @@
             if (nameEl) nameEl.textContent = name;
             if (detailsEl) detailsEl.textContent = `${date} &bull; ${loc}`;
             document.getElementById('modal-event').classList.add('open');
+            document.body.style.overflow = 'hidden';
         });
     });
 
@@ -4235,6 +4419,18 @@
     document.querySelectorAll('.open-careers-modal').forEach(btn => {
         btn.addEventListener('click', () => {
             document.getElementById('modal-careers').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    // Modal Triggers: Interest Identification ("Let's Stay Connected")
+    document.querySelectorAll('.open-interest-modal').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const interestModal = document.getElementById('modal-interest');
+            if (interestModal) {
+                interestModal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
         });
     });
 
