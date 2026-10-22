@@ -198,7 +198,9 @@ function renderBrandPage(brandBladePath, activeTab, brandLandingUrl) {
     result = result.replace(/@yield\('active-hrforward'\)/g, activeTab === 'hrforward' ? 'active' : '');
     result = result.replace(/@yield\('active-brands'\)/g, activeTab === 'brands' ? 'active' : '');
     result = result.replace(/@yield\('brand-landing-url'[^)]*\)/g, brandLandingUrl);
+    result = result.replace(/@yield\('extra-styles'\)/g, '');
     result = result.replace(/@yield\('extra-scripts'\)/g, '');
+    result = result.replace(/@yield\([^)]*\)/g, '');
 
     result = cleanBladeSyntax(result);
     return result;
